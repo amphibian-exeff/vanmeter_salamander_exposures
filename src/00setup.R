@@ -1,6 +1,13 @@
 #Install and load supporting libraries.
 print(Sys.info()[4])
 
+library(dplyr)
+library(forcats)
+library(FSA)
+library(ggplot2)
+library(ggpubr)
+library(rstatix)
+
 print("list of loaded packages: ")
 print((.packages()))
 
@@ -27,7 +34,10 @@ print(paste("check to see if R can access GSF file OK: ", boo))
 #SVL (mm)
 
 rvm_gsh <- read.csv(file.path(rvm_csv_in,"/Final_GSH_Salamanders_April_2020.csv"), stringsAsFactors = TRUE)
+View(rvm_gsh)
+colnames(rvm_gsh)[1] <- 'treatment'
 
 summary(rvm_gsh)
 colnames(rvm_gsh)
+View(rvm_gsh)
 
