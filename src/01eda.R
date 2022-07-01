@@ -38,13 +38,14 @@ jpeg(metrics_figure_filename, width = 7, height = 4, units = "in",res=600)
   metrics_combined
 dev.off()
 
+# using this one
 p3 <- rvm_gsh %>%
   mutate(treatment = fct_relevel(treatment, 
                                  "C", "24D", "CPS")) %>%
     ggplot(aes(x=treatment, y=gsh_1_5_dilution_nM_mL, fill=treatment)) +
       geom_boxplot() +
       geom_jitter(shape=16, position=position_jitter(0.2)) +
-      xlab("Treatment") + ylab("gsh_1_5_dilution_nM_mL") + ggtitle("Salamander gsh 1:5 dilution") +
+      xlab("Treatment") + ylab("Glutathione (nM_mL)") + ggtitle("Glutathione") +
       theme_bw()
 p3
 
@@ -200,3 +201,25 @@ aggregate(formula = log(gsh_1_8_dilution_nM_mL) ~ treatment,
 #1       24D                     0.9244898                      0.3959265
 #2         C                     0.9391566                      0.5106339
 #3       CPS                     0.9713493                      0.8998137
+
+p5 <- rvm_gsh %>%
+  mutate(treatment = fct_relevel(treatment, 
+                                 "C", "24D", "CPS")) %>%
+  ggplot(aes(x=treatment, y=ache_ug_min_mg, fill=treatment)) +
+  geom_boxplot() +
+  geom_jitter(shape=16, position=position_jitter(0.2)) +
+  xlab("Treatment") + ylab("Acetylcholinesterase (ug_min_mg)") + ggtitle("Acetylcholinesterase") +
+  theme_bw()
+p5
+
+#combined figure jpg
+responses_combined <- ggarrange(p3, p5, heights = c(4, 4), widths=c(3.7,3.3),
+                          labels = c("A", "B"),
+                          ncol = 2, nrow = 1)
+responses_combined
+
+# combined figure
+response_figure_filename <- paste(rvm_graphics,"/rvm_salamander_response_figure.jpg",sep="")
+jpeg(response_figure_filename, width = 7, height = 4, units = "in",res=600)
+ responses_combined
+dev.off()

@@ -1,3 +1,8 @@
+# Van Meter salamander stat analysis
+# 24d and chlorpyrifos as stressors/exposures
+# responses are glutathione and acetylcholinesterase
+
+
 #Install and load supporting libraries.
 print(Sys.info()[4])
 
@@ -13,10 +18,10 @@ print((.packages()))
 
 #tom epa windows
 if(Sys.info()[4]=="DZ2626UTPURUCKE"){
-  rvm_root <- file.path("c:", "git", "rvm_salamander_gsh")
+  rvm_root <- file.path("c:", "git", "vanmeter_gsh_salamanders")
 }
 if(Sys.info()[4]=="LZ2626UTPURUCKE"){
-  rvm_root <- file.path("c:","git","rvm_salamander_gsh")
+  rvm_root <- file.path("c:","git","vanmeter_gsh_salamanders")
 }
 
 print(paste("Root directory location: ", rvm_root, sep=""))
@@ -33,11 +38,14 @@ print(paste("check to see if R can access GSF file OK: ", boo))
 #Weight (g)
 #SVL (mm)
 
-rvm_gsh <- read.csv(file.path(rvm_csv_in,"/Final_GSH_Salamanders_April_2020.csv"), stringsAsFactors = TRUE)
-View(rvm_gsh)
+#gsh data (ache added 5/2022)
+rvm_gsh <- read.csv(file.path(rvm_data_in,"/Final_GSH_Salamanders_April_2020.csv"), stringsAsFactors = TRUE)
+#View(rvm_gsh)
 colnames(rvm_gsh)[1] <- 'treatment'
 
 summary(rvm_gsh)
 colnames(rvm_gsh)
-View(rvm_gsh)
+#View(rvm_gsh)
+
+
 
