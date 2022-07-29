@@ -13,7 +13,7 @@ which_logged_24d <- which(rvm_gsh_logged$treatment=='24D')
 which_logged_cps <- which(rvm_gsh_logged$treatment=='CPS')
 
 # exposures for 24d and chlorpyrifos
-#24D significant for gsh when an outlier is dropped
+#24D significant for gsh when an outlier is dropped, for the 1:8 dilution but not 1:5
 
 
 ###Welch Two Sample t-test
