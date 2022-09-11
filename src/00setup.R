@@ -43,6 +43,9 @@ rvm_gsh <- read.csv(file.path(rvm_data_in,"/Final_GSH_Salamanders_April_2020.csv
 #View(rvm_gsh)
 colnames(rvm_gsh)[1] <- 'treatment'
 
+# Using the average of gsh 1_5 and 1_8 for manuscript
+rvm_gsh$gsh_nM_mL <- rowMeans(cbind(rvm_gsh$gsh_1_5_dilution_nM_mL, rvm_gsh$gsh_1_8_dilution_nM_mL))
+
 summary(rvm_gsh)
 colnames(rvm_gsh)
 #View(rvm_gsh)

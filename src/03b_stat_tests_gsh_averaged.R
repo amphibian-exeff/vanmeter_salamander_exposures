@@ -1,51 +1,56 @@
+############
 # not an anova since no interaction, do ttests
+# indices for the 3 scenarios: all data, dropping outlier, logged with dropped outlier
+# all data
 which_controls <- which(rvm_gsh$treatment=='C')
 which_24d <- which(rvm_gsh$treatment=='24D')
 which_cps <- which(rvm_gsh$treatment=='CPS')
-which15_controls <- which(rvm_gsh15$treatment=='C')
-which15_24d <- which(rvm_gsh15$treatment=='24D')
-which15_cps <- which(rvm_gsh15$treatment=='CPS')
-which18_controls <- which(rvm_gsh18$treatment=='C')
-which18_24d <- which(rvm_gsh18$treatment=='24D')
-which18_cps <- which(rvm_gsh18$treatment=='CPS')
-which158_controls <- which(rvm_gsh18$treatment=='C')
-which158_24d <- which(rvm_gsh18$treatment=='24D')
-which158_cps <- which(rvm_gsh18$treatment=='CPS')
-which_logged_controls <- which(rvm_gsh_logged$treatment=='C')
-which_logged_24d <- which(rvm_gsh_logged$treatment=='24D')
-which_logged_cps <- which(rvm_gsh_logged$treatment=='CPS')
+# dropping outliers for averaged dilutions
+which158_controls <- which(rvm_gsh_158$treatment=='C')
+which158_24d <- which(rvm_gsh_158$treatment=='24D')
+which158_cps <- which(rvm_gsh_158$treatment=='CPS')
+# dropping logged outliers for averaged dilutions
+which158_logged_controls <- which(rvm_gsh158_logged$treatment=='C')
+which158_logged_24d <- which(rvm_gsh158_logged$treatment=='24D')
+which158_logged_cps <- which(rvm_gsh158_logged$treatment=='CPS')
 
 
-### We used the means of gsh 1:5 and 1:8 at the bottom in the manuscript
+### We used the means of gsh 1:5 and 1:8 to generate the results
+# this is what we use in the manuscript
 
-# exposures for 24d and chlorpyrifos
-#24D significant for gsh when an outlier is dropped, for the 1:8 dilution but not 1:5
+# original data
+View(rvm_gsh)
+temp_view <- rvm_gsh %>%
+  mutate(treatment = fct_relevel(treatment, 
+                                 "C", "24D", "CPS"))
 
-
-###Welch Two Sample t-test
-###1:5 24d
-#1:5 with outliers
-t.test(rvm_gsh$gsh_1_5_dilution_nM_mL[which_controls],rvm_gsh$gsh_1_5_dilution_nM_mL[which_24d])
-#data:  rvm_gsh$gsh_1_5_dilution_nM_mL[which_controls] and rvm_gsh$gsh_1_5_dilution_nM_mL[which_24d]
-#t = -1.0087, df = 19.697, p-value = 0.3254
+### SCENARIO 1
+###averaged gsh 24d for 24d with outliers #NOT SIGNIFICANT
+rvm_gsh$gsh_nM_mL[which_controls]
+rvm_gsh$gsh_nM_mL[which_24d]
+t.test(rvm_gsh$gsh_nM_mL[which_controls],rvm_gsh$gsh_nM_mL[which_24d])
+#data:  rvm_gsh$gsh_nM_mL[which_controls] and rvm_gsh$gsh_nM_mL[which_24d]
+#t = -0.9799, df = 18.409, p-value = 0.3398
 #alternative hypothesis: true difference in means is not equal to 0
 #95 percent confidence interval:
-#  -7.542958  2.629019
+#  -8.015691  2.911137
 #sample estimates:
 #  mean of x mean of y 
-#12.23892  14.69589 
+#13.78678  16.33906 
 
-
-#1:5 drop outliers
-t.test(rvm_gsh15$gsh_1_5_dilution_nM_mL[which15_controls],rvm_gsh15$gsh_1_5_dilution_nM_mL[which15_24d])
-#data:  rvm_gsh15$gsh_1_5_dilution_nM_mL[which15_controls] and rvm_gsh15$gsh_1_5_dilution_nM_mL[which15_24d]
-#t = -2.0327, df = 17.403, p-value = 0.05763
+### SCENARIO 1 #SIGNIFICANT
+#averaged gsh for 24d  drop outliers
+rvm_gsh_158$gsh_nM_mL[which158_controls] # high value of 31 dropped
+rvm_gsh_158$gsh_nM_mL[which158_24d] # nothing dropped
+t.test(rvm_gsh_158$gsh_nM_mL[which158_controls],rvm_gsh_158$gsh_nM_mL[which158_24d])
+#data:  rvm_gsh_158$gsh_nM_mL[which158_controls] and rvm_gsh_158$gsh_nM_mL[which158_24d]
+#t = -2.2871, df = 16.175, p-value = 0.03599
 #alternative hypothesis: true difference in means is not equal to 0
 #95 percent confidence interval:
-#  -8.1055902  0.1437023
+#  -9.0154610 -0.3459656
 #sample estimates:
 #  mean of x mean of y 
-#10.71495  14.69589 
+#11.98365  16.66436 
 
 ###Welch Two Sample t-test
 ###1:8 24d

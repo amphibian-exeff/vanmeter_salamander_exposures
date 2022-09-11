@@ -15,6 +15,8 @@ which_logged_cps <- which(rvm_gsh_logged$treatment=='CPS')
 ###Welch Two Sample t-test
 ###1:5 24d
 #with outliers
+rvm_gsh$ache_ug_min_mg[which_controls]
+rvm_gsh$ache_ug_min_mg[which_24d]
 t.test(rvm_gsh$ache_ug_min_mg[which_controls],rvm_gsh$ache_ug_min_mg[which_24d])
 #Welch Two Sample t-test
 

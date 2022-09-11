@@ -1,8 +1,4 @@
 colnames(rvm_gsh)
-outliers15 <- which(rvm_gsh$salamander_id=='CONS3')
-outliers15
-outliers18 <- c(which(rvm_gsh$salamander_id=='CONS3'),which(rvm_gsh$salamander_id=='DS7'),which(rvm_gsh$salamander_id=='CHLS4'))
-outliers18
 
 #svl ~ body weight
 svl_mm_model_wbw <- lm(svl_mm ~ weight_g, data=rvm_gsh)

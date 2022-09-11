@@ -7,78 +7,8 @@ unique(rvm_gsh$treatment)
 #[1] C   24D CPS
 #Levels: 24D C CPS
 
-p1 <- rvm_gsh %>%
-  mutate(treatment = fct_relevel(treatment, 
-                            "C", "24D", "CPS")) %>%
-    ggplot(aes(x=treatment, y=weight_g, fill=treatment)) +
-      geom_boxplot() +
-      geom_jitter(shape=16, position=position_jitter(0.2)) +
-      xlab("Treatment") + ylab("body weight (g)") + ggtitle("Salamander Body Weight") +
-      theme_bw()
-p1
+## summary stats, normality tests, and check for outliers
 
-p2 <- rvm_gsh %>%
-  mutate(treatment = fct_relevel(treatment, 
-                                 "C", "24D", "CPS")) %>%
-    ggplot(aes(x=treatment, y=svl_mm, fill=treatment)) +
-      geom_boxplot(show.legend = FALSE) +
-      geom_jitter(shape=16, position=position_jitter(0.2), show.legend = FALSE) +
-      xlab("Treatment") + ylab("snout-vent-length (mm)") + ggtitle("Salamander Snout-Vent-Length") +
-      theme_bw()
-p2
-
-#combined figure jpg
-metrics_combined <- ggarrange(p1, p2, heights = c(4, 4), widths=c(3.7,3.3),
-                              labels = c("A", "B"),
-                              ncol = 2, nrow = 1)
-metrics_combined
-
-metrics_figure_filename <- paste(rvm_graphics,"/rvm_salamander_gsh_metrics_figure.jpg",sep="")
-jpeg(metrics_figure_filename, width = 7, height = 4, units = "in",res=600)
-  metrics_combined
-dev.off()
-
-# using this one
-p3 <- rvm_gsh %>%
-  mutate(treatment = fct_relevel(treatment, 
-                                 "C", "24D", "CPS")) %>%
-  ggplot(aes(x=treatment, y=gsh_nM_mL, fill=treatment)) +
-  geom_boxplot() +
-  geom_jitter(shape=16, position=position_jitter(0.2)) +
-  xlab("Treatment") + ylab("Glutathione (nM_mL)") + ggtitle("Glutathione") +
-  theme_bw() + theme(legend.position = "none")
-p3
-
-p4 <- rvm_gsh %>%
-  mutate(treatment = fct_relevel(treatment, 
-                                 "C", "24D", "CPS")) %>%
-    ggplot(aes(x=treatment, y=gsh_1_5_dilution_nM_mL, fill=treatment)) +
-      geom_boxplot() +
-      geom_jitter(shape=16, position=position_jitter(0.2)) +
-      xlab("Treatment") + ylab("Glutathione (1:5) (nM_mL)") + ggtitle("Glutathione (1:5)") +
-      theme_bw()
-p4
-
-p5 <- rvm_gsh %>%
-  mutate(treatment = fct_relevel(treatment, 
-                                 "C", "24D", "CPS")) %>%
-    ggplot(aes(x=treatment, y=gsh_1_8_dilution_nM_mL, fill=treatment)) +
-      geom_boxplot() +
-      geom_jitter(shape=16, position=position_jitter(0.2)) +
-      xlab("Treatment") + ylab("gsh_1_8_dilution_nM_mL") + ggtitle("Glutathion (1:8)") +
-      theme_bw()
-p5
-
-#combined figure jpg
-gsh_combined <- ggarrange(p3, p4, p5, heights = c(4, 4), widths=c(3.3,3.3,3.3),
-                              labels = c("A", "B"),
-                              ncol = 3, nrow = 1)
-gsh_combined
-
-gsh_figure_filename <- paste(rvm_graphics,"/rvm_salamander_gsh_figure.jpg",sep="")
-jpeg(gsh_figure_filename, width = 7, height = 4, units = "in",res=600)
-  gsh_combined
-dev.off()
 
 Summarize(gsh_1_5_dilution_nM_mL ~ treatment, data=rvm_gsh, digits=3)
 #treatment  n   mean    sd   min     Q1 median    Q3    max
@@ -99,6 +29,8 @@ Summarize(gsh_nM_mL ~ treatment, data=rvm_gsh, digits=3)
 #3       CPS 11 12.035 4.255 6.999  9.520 10.255 14.334 21.452
 
 # normality tests
+# shapiro.test
+# p.value: an approximate p-value for the test. This is said in Royston (1995) to be adequate for p.value < 0.1.
 aggregate(gsh_nM_mL ~ treatment,
           data = rvm_gsh,
           FUN = function(x) {y <- shapiro.test(x); c(y$statistic, y$p.value)})
@@ -124,6 +56,8 @@ aggregate(gsh_1_8_dilution_nM_mL ~ treatment,
 #3       CPS              0.918494639               0.306301002
 
 #identify outliers
+colnames(rvm_gsh)
+head(rvm_gsh)
 # identify outliers
 rvm_gsh %>%
   group_by(treatment) %>%
@@ -157,7 +91,9 @@ outliers18 <- c(which(rvm_gsh$salamander_id=='CONS3'),which(rvm_gsh$salamander_i
 outliers18
 
 # repeat normality tests but drop outliers
+dim(rvm_gsh)
 rvm_gsh_158 <- rvm_gsh[-outliers_158,]
+dim(rvm_gsh_158)
 aggregate(gsh_nM_mL ~ treatment,
           data = rvm_gsh_158,
           FUN = function(x) {y <- shapiro.test(x); c(y$statistic, y$p.value)})
@@ -167,6 +103,7 @@ aggregate(gsh_nM_mL ~ treatment,
 #3       CPS   0.8918959    0.1468480
 
 rvm_gsh15 <- rvm_gsh[-outliers15,]
+dim(rvm_gsh_158)
 aggregate(gsh_1_5_dilution_nM_mL ~ treatment,
           data = rvm_gsh15,
           FUN = function(x) {y <- shapiro.test(x); c(y$statistic, y$p.value)})
@@ -176,6 +113,7 @@ aggregate(gsh_1_5_dilution_nM_mL ~ treatment,
 #3       CPS                0.8480932                 0.0403001
 
 rvm_gsh18 <- rvm_gsh[-outliers18,]
+dim(rvm_gsh18)
 aggregate(gsh_1_8_dilution_nM_mL ~ treatment,
           data = rvm_gsh18,
           FUN = function(x) {y <- shapiro.test(x); c(y$statistic, y$p.value)})
@@ -268,24 +206,4 @@ aggregate(log(gsh_1_8_dilution_nM_mL) ~ treatment,
 #2         C                     0.9391566                      0.5106339
 #3       CPS                     0.9713493                      0.8998137
 
-p6 <- rvm_gsh %>%
-  mutate(treatment = fct_relevel(treatment, 
-                                 "C", "24D", "CPS")) %>%
-  ggplot(aes(x=treatment, y=ache_ug_min_mg, fill=treatment)) +
-  geom_boxplot() +
-  geom_jitter(shape=16, position=position_jitter(0.2)) +
-  xlab("Treatment") + ylab("Acetylcholinesterase (ug_min_mg)") + ggtitle("Acetylcholinesterase") +
-  theme_bw()
-p6
 
-#combined figure jpg
-responses_combined <- ggarrange(p3, p6, heights = c(4, 4), widths=c(2.7,3.7),
-                          labels = c("A", "B"),
-                          ncol = 2, nrow = 1)
-responses_combined
-
-# combined figure
-response_figure_filename <- paste(rvm_graphics,"/rvm_salamander_response_figure.jpg",sep="")
-jpeg(response_figure_filename, width = 7, height = 4, units = "in",res=600)
- responses_combined
-dev.off()
