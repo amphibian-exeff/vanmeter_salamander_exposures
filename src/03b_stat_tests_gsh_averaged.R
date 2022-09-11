@@ -27,7 +27,9 @@ temp_view <- rvm_gsh %>%
 ### SCENARIO 1
 ###averaged gsh 24d for 24d with outliers #NOT SIGNIFICANT
 rvm_gsh$gsh_nM_mL[which_controls]
+# [1] 16.547200 14.877617 31.818133 12.076400 13.045233  6.954350  9.477850 17.365583  7.115300 13.348783  9.028167
 rvm_gsh$gsh_nM_mL[which_24d]
+# [1] 22.654667 18.527500 20.756567 20.561867 17.353950 15.432950  5.262183 11.256617 20.428333 14.408983 13.086050
 t.test(rvm_gsh$gsh_nM_mL[which_controls],rvm_gsh$gsh_nM_mL[which_24d])
 #data:  rvm_gsh$gsh_nM_mL[which_controls] and rvm_gsh$gsh_nM_mL[which_24d]
 #t = -0.9799, df = 18.409, p-value = 0.3398
@@ -38,10 +40,12 @@ t.test(rvm_gsh$gsh_nM_mL[which_controls],rvm_gsh$gsh_nM_mL[which_24d])
 #  mean of x mean of y 
 #13.78678  16.33906 
 
-### SCENARIO 1 #SIGNIFICANT
+### SCENARIO 2 #SIGNIFICANT
 #averaged gsh for 24d  drop outliers
 rvm_gsh_158$gsh_nM_mL[which158_controls] # high value of 31 dropped
+# [1] 16.547200 14.877617 12.076400 13.045233  6.954350  9.477850 17.365583  7.115300 13.348783  9.028167
 rvm_gsh_158$gsh_nM_mL[which158_24d] # nothing dropped
+# [1] 22.654667 18.527500 20.756567 20.561867 17.353950 15.432950  5.262183 11.256617 20.428333 14.408983 13.086050
 t.test(rvm_gsh_158$gsh_nM_mL[which158_controls],rvm_gsh_158$gsh_nM_mL[which158_24d])
 #data:  rvm_gsh_158$gsh_nM_mL[which158_controls] and rvm_gsh_158$gsh_nM_mL[which158_24d]
 #t = -2.2871, df = 16.175, p-value = 0.03599
@@ -52,6 +56,51 @@ t.test(rvm_gsh_158$gsh_nM_mL[which158_controls],rvm_gsh_158$gsh_nM_mL[which158_2
 #  mean of x mean of y 
 #11.98365  16.66436 
 
+
+### SCENARIO 3 -Logged gsh-24d with outliers
+
+### SCENARIO 4 -Logged gsh-24d but drop outliers
+
+### SCENARIO 5
+###averaged gsh t-test for chlorpyrifos for 24d with outliers #NOT SIGNIFICANT
+rvm_gsh$gsh_nM_mL[which_controls]
+# [1] 16.547200 14.877617 31.818133 12.076400 13.045233  6.954350  9.477850 17.365583  7.115300 13.348783  9.028167
+rvm_gsh$gsh_nM_mL[which_cps]
+# [1] 13.289433  9.495467 16.528483 21.451567 15.378733  8.548267 11.184567  9.711617  9.544917 10.254700  6.998583
+t.test(rvm_gsh$gsh_nM_mL[which_controls],rvm_gsh$gsh_nM_mL[which_cps])
+#data:  rvm_gsh$gsh_nM_mL[which_controls] and rvm_gsh$gsh_nM_mL[which_cps]
+#t = 0.71301, df = 16.576, p-value = 0.4858
+#alternative hypothesis: true difference in means is not equal to 0
+##95 percent confidence interval:
+#  -3.441663  6.944987
+#sample estimates:
+#  mean of x mean of y 
+#13.78678  12.03512 
+
+### SCENARIO 6
+###averaged gsh t-test for chlorpyrifos for 24d but drop outliers #NOT SIGNIFICANT
+rvm_gsh_158$gsh_nM_mL[which158_controls]
+# [1] 16.547200 14.877617 12.076400 13.045233  6.954350  9.477850 17.365583  7.115300 13.348783  9.028167
+rvm_gsh_158$gsh_nM_mL[which158_cps]
+# [1] 13.289433  9.495467 16.528483 21.451567 15.378733  8.548267 11.184567  9.711617  9.544917 10.254700  6.998583
+t.test(rvm_gsh_158$gsh_nM_mL[which158_controls],rvm_gsh_158$gsh_nM_mL[which158_cps])
+#data:  rvm_gsh_158$gsh_nM_mL[which158_controls] and rvm_gsh_158$gsh_nM_mL[which158_cps]
+#t = -0.029536, df = 18.981, p-value = 0.9767
+#alternative hypothesis: true difference in means is not equal to 0
+#95 percent confidence interval:
+#  -3.699235  3.596289
+##sample estimates:
+#  mean of x mean of y 
+#11.98365  12.03512 
+
+### SCENARIO 7 -Logged gsh-chlorpyrifos with outliers
+
+### SCENARIO 8 -Logged gsh-chlorpyrifos but drop outliers
+
+
+
+
+####################################
 ###Welch Two Sample t-test
 ###1:8 24d
 #1:8 with outliers
