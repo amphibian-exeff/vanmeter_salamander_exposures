@@ -12,6 +12,17 @@ library(FSA)
 library(ggplot2)
 library(ggpubr)
 library(rstatix)
+library(BGGM)
+library(ggm)
+library(corrplot)
+library(qgraph)
+library(robFitConGraph)
+library(reshape2)
+library(glasso)
+library(igraph)
+library(GGally)
+library(matrixcalc)
+library(Matrix)
 
 print("list of loaded packages: ")
 print((.packages()))
@@ -50,5 +61,25 @@ summary(rvm_gsh)
 colnames(rvm_gsh)
 #View(rvm_gsh)
 
+# peaks from wmh/dag
+# metabolites with multiple peas were summed into one peak
 
+# urea cycle
+rvm_urea <- read.csv(file.path(rvm_data_in,"/urea_cycle_peaks.csv"), stringsAsFactors = TRUE)
+dim(rvm_urea)
 
+# gly ser metabolism
+rvm_gly_ser_metabolism <- read.csv(file.path(rvm_data_in,"/gly_ser_metabolism_peaks.csv"), stringsAsFactors = TRUE)
+dim(rvm_gly_ser_metabolism)
+
+# glu metabolism
+rvm_glu_metabolism <- read.csv(file.path(rvm_data_in,"/glu_metabolism_peaks.csv"), stringsAsFactors = TRUE)
+dim(rvm_glu_metabolism)
+
+# gluconeogenesis
+rvm_gluconeogenesis <- read.csv(file.path(rvm_data_in,"/gluconeogenesis_peaks.csv"), stringsAsFactors = TRUE)
+dim(rvm_gluconeogenesis)
+
+# glu ala cycle
+rvm_glu_ala_cycle <- read.csv(file.path(rvm_data_in,"/glu_ala_cycle_peaks.csv"), stringsAsFactors = TRUE)
+dim(rvm_glu_ala_cycle)
