@@ -1,32 +1,43 @@
 dim(rvm_gly_ser_metabolism)
 rvm_gly_ser <- rvm_gly_ser_metabolism
 
-#View(rvm_gly_ser)
-
-#need to standardize all the numerics
-standardize = function(x)
-{
-  return((x-mean(x))/sd(x))
-}
-
 rvm_gly_ser_mat <- rvm_gly_ser[,3:ncol(rvm_gly_ser)]
 dim(rvm_gly_ser_mat)
-rvm_gly_ser_std_t = apply(rvm_gly_ser_mat,1,standardize)
+ncols_gly_ser <- dim(rvm_gly_ser_mat)[[2]]
+#View(rvm_gly_ser_mat)
+rvm_gly_ser_mat_log <- log2(rvm_gly_ser_mat)
 
-rvm_gly_ser_std <- t(rvm_gly_ser_std_t)
-#View(rvm_gly_ser_std)
+#View(rvm_gly_ser_mat_log)
+# standardize is in 00support_functions.R
+rvm_gly_ser_std = normal_score_transform(rvm_gly_ser_mat_log, 1:ncols_gly_ser)
+#View(rvm_gly_ser_std) # standardized after log2 transformation
 
 rvm_gly_ser_std_control <- rvm_gly_ser_std[1:11,]
+#View(rvm_gly_ser_std_control)
 rvm_gly_ser_std_cpf <- rvm_gly_ser_std[12:22,]
+#View(rvm_gly_ser_std_cpf)
 rvm_gly_ser_std_d <- rvm_gly_ser_std[23:33,]
+#View(rvm_gly_ser_std_d)
 rvm_gly_ser_std_treatment <- rvm_gly_ser_std[12:33,]
+#View(rvm_gly_ser_std_treatment)
 
+
+
+###### not using this at the moment
 # convert to long format for ggplot
 rvm_gly_ser_gg_wide <- cbind(as.factor(rvm_gly_ser$treatment), rvm_gly_ser_std)
+rvm_gly_ser_gg_wide <- as.data.frame(rvm_gly_ser_gg_wide)
+#View(rvm_gly_ser_gg_wide)
 colnames(rvm_gly_ser_gg_wide)[1] <- "treatment"
+rvm_gly_ser_gg_wide$treatment <- as.factor(as.character(rvm_gly_ser_gg_wide$treatment)) 
+#View(rvm_gly_ser_gg_wide)
 rvm_gly_ser_gg <- melt(rvm_gly_ser_gg_wide, id.vars=c("treatment"))
 #View(rvm_gly_ser_gg)
 
+ggpairs(rvm_gly_ser_gg,                 # Data frame
+        aes(color = treatment,  # Color by group (cat. variable)
+            alpha = 0.5))     # Transparency
+#######
 
 
 # the required sample size for covariance matrices depends on the distribution of the variables being measured. 
@@ -60,53 +71,89 @@ rvm_gly_ser_gg <- melt(rvm_gly_ser_gg_wide, id.vars=c("treatment"))
 #gly_ser
 # overlapping kernel density plots for each metabolite
 # install.packages("GGally")
-library(GGally)
 
-ggpairs(rvm_gly_ser_gg,                 # Data frame
-        aes(color = treatment,  # Color by group (cat. variable)
-            alpha = 0.5))     # Transparency
 
 # paired scatterplots
 pairs(rvm_gly_ser_std, col=rvm_gly_ser$treatment)
+pairs(rvm_gly_ser_std_control)
+pairs(rvm_gly_ser_std_cpf)
+pairs(rvm_gly_ser_std_24d)
+
 #for everything, we don't have sample sizes to do treatments
 n_samples_all <- nrow(rvm_gly_ser_std)
 n_samples_control <- nrow(rvm_gly_ser_std_control)
 n_samples_cpf <- nrow(rvm_gly_ser_std_cpf)
 n_samples_d <- nrow(rvm_gly_ser_std_d)
 
-library(matrixcalc)
-library(Matrix)
-# compute correlations covariance
-gly_ser_cormatrix <- cor_auto(rvm_gly_ser_std)
-gly_ser_cormatrix <- as.matrix(forceSymmetric(gly_ser_cormatrix))
-is.positive.definite(gly_ser_cormatrix, tol=1e-8)
+
+##### compute correlations covariance
+### all together
 # very important, correlation is within individuals, not across treatments, so does not
 # indicate anything regrarding effects of treatment
-corrplot(gly_ser_cormatrix, type = "upper", order = "hclust", 
-         tl.col = "black", tl.srt = 45)
-qgraph(gly_ser_cormatrix, graph = "glasso", sampleSize = n_samples_all,
-       layout = "spring", refit = FALSE, title = "gly_ser")
+gly_ser_cormatrix <- cor_auto(rvm_gly_ser_std)
+gly_ser_cov <- cov(rvm_gly_ser_std)
+#gly_ser_cormatrix <- var(rvm_gly_ser_std)
+#gly_ser_cormatrix <- as.matrix(forceSymmetric(gly_ser_cormatrix))
+# check if the matrix is positive definite or not
+is.positive.definite(gly_ser_cov, tol=1e-8)
+eigen(gly_ser_cov)$values # sll should be positive for positive definite
+corrplot(gly_ser_cov, type = "upper", order = "hclust", 
+         tl.col = "black", tl.srt = 45, diag=F)
+# uses glasso
+gly_ser_glasso <- qgraph(gly_ser_cov, graph = "glasso", sampleSize = n_samples_all,
+                      layout = "spring", refit = FALSE, title = "gly_ser", threshold=T)
+plot(gly_ser_glasso)
+# Estimate network using glasso needs the covariance matrix
+# the glasso function is an implementation of the graphical lasso algorithm, 
+# which is a method for estimating sparse precision matrices and the corresponding 
+# Gaussian graphical models. The qgraph function is a tool for visualizing 
+# and manipulating graphs and networks.
+glasso_fit <- glasso(gly_ser_cov, rho=0)
+# Extract estimated adjacency matrix from the glasso_fit
+adj_matrix <- glasso_fit$wi
+# Plot estimated network
+gly_ser_qgraph_adjmatrix_cov <- qgraph(adj_matrix, layout = "spring", labels = colnames(gly_ser_cormatrix))
+plot(gly_ser_qgraph_adjmatrix_cov)
+#library(patchwork)
+#(plot(gly_ser_glasso) | plot(gly_ser_glasso))/(plot(gly_ser_qgraph_adjmatrix_cov))
+#library(cowplot)
+#plot_grid(plot(gly_ser_glasso), plot(gly_ser_glasso), plot(gly_ser_glasso), ncol = 3)
 
+### controls only
 # control corrplot works but qgraph FAILS
+# control correlation
 gly_ser_cormatrix_control <- cor_auto(rvm_gly_ser_std_control)
-gly_ser_cormatrix_control <- as.matrix(forceSymmetric(gly_ser_cormatrix_control))
 is.positive.definite(gly_ser_cormatrix_control, tol=1e-8)
+eigen(gly_ser_cormatrix_control)$values # sll should be positive for positive definite
 corrplot(gly_ser_cormatrix_control, type = "upper", order = "hclust", 
          tl.col = "black", tl.srt = 45)
-qgraph(gly_ser_cormatrix_control, graph = "glasso", sampleSize = n_samples_control,
+# control covariance
+gly_ser_cov_control <- cov(rvm_gly_ser_std_control)
+is.positive.definite(gly_ser_cov_control, tol=1e-8)
+eigen(gly_ser_cov_control)$values # sll should be positive for positive definite
+corrplot(gly_ser_cov_control, type = "upper", order = "hclust", 
+         tl.col = "black", tl.srt = 45)
+
+qgraph(gly_ser_cov_control, graph = "glasso", sampleSize = n_samples_control,
        layout = "spring", refit = FALSE, title = "Original")
+
+
+
+
 
 #combined treatments
 gly_ser_cormatrix_treatment <- cor_auto(rvm_gly_ser_std_treatment, forcePD = T)
+gly_ser_cormatrix_treatment <- var(rvm_gly_ser_std_treatment)
 gly_ser_cormatrix_treatment <- as.matrix(forceSymmetric(gly_ser_cormatrix_treatment))
 is.positive.definite(gly_ser_cormatrix_treatment, tol=1e-8)
 corrplot(gly_ser_cormatrix_treatment, type = "upper", order = "hclust", 
          tl.col = "black", tl.srt = 45)
 qgraph(gly_ser_cormatrix_treatment, graph = "glasso", sampleSize = (n_samples_cpf + n_samples_d),
-       layout = "spring", refit = FALSE, title = "Original")
+       layout = "spring", refit = FALSE, title = "gly_ser-All treatments")
 
 #chlorpyrifos corrplot and qgraph FAILS
 gly_ser_cormatrix_cpf <- cor_auto(rvm_gly_ser_std_cpf) #, forcePD = T
+gly_ser_cormatrix_cpf <- var(rvm_gly_ser_std_cpf) #, forcePD = T
 gly_ser_cormatrix_cpf <- as.matrix(forceSymmetric(gly_ser_cormatrix_cpf))
 is.positive.definite(gly_ser_cormatrix_cpf, tol=1e-8)
 corrplot(gly_ser_cormatrix_cpf, type = "upper", order = "hclust", 
@@ -137,6 +184,15 @@ qgraph(gly_ser_cov_d, graph = "glasso", sampleSize = (n_samples_d),
 # requires a tuning hyperparameter
 # Mazumer, R., Hastie, T., The graphical lasso: New insights and alternatives. Electron J Stat. ; 6: 2125–2149. doi:10.1214/12-EJS740.
 
+#There are several methods to convert a correlation matrix to a positive definite matrix, some of which include:
+#Add a small positive constant to the diagonal of the matrix. This is known as "regularization" and is often done with the "Ridge" method of regularization.
+#Use a modified Cholesky decomposition, also known as "near-PD" Cholesky decomposition, which uses a regularization term to ensure that the decomposition is positive definite.
+#Use the "Matrix square root" method, which calculates the matrix square root of the correlation matrix and then multiplies it by its transpose to obtain a positive definite matrix
+#Use the "Eigenvalue adjustment" method, which is to add a small positive constant to the eigenvalues of the correlation matrix and then reconstruct the matrix.
+#Use the "Regularized covariance" method, which is to use a shrinkage estimator to estimate the covariance matrix, and then convert it to a correlation matrix.
+#It is worth noting that converting a correlation matrix to a positive definite matrix is not always possible, since correlation matrix has constraint that the diagonal elements should be 1, and the off-diagonal elements should be between -1 and 1. Therefore, if the correlation matrix is already positive definite, no conversion is needed.
+
+
 #EBICglasso from the qgraph pacakge is used to wrap glasso
 #https://www.rdocumentation.org/packages/qgraph/versions/1.9.2/topics/EBICglasso
 
@@ -154,7 +210,45 @@ qgraph(gly_ser_cov_d, graph = "glasso", sampleSize = (n_samples_d),
 # Revelle, W. (2014) psych: Procedures for Personality and Psychological Research, Northwestern University, Evanston, Illinois, USA, http://CRAN.R-project.org/package=psych Version = 1.4.4.
 # Bates, D., and Maechler, M. (2014). Matrix: Sparse and Dense Matrix Classes and Methods. R package version 1.1-3. http://CRAN.R-project.org/package=Matrix
 # Jankova, J., and van de Geer, S. (2018) Inference for high-dimensional graphical models. In: Handbook of graphical models (editors: Drton, M., Maathuis, M., Lauritzen, S., and Wainwright, M.). CRC Press: Boca Raton, Florida, USA.
-gly_ser_glasso <- EBICglasso(gly_ser_cormatrix, n_samples_all, gamma = 0.5, penalize.diagonal = FALSE, nlambda = 100, 
+
+###everything together
+
+
+### begin ridge regularization
+# defines a regularization term lambda and then add this term to the diagonal of the correlation matrix 
+# to obtain a positive definite matrix pd_matrix. The regularization term lambda is a small positive 
+# just add a constant to the diagonal of the matrix
+epsilon <- 0.0001
+gly_ser_cormatrix
+gly_ser_cormatrix_ridge <- gly_ser_cormatrix + diag(rep(epsilon, nrow(gly_ser_cormatrix)))
+eigen(gly_ser_cormatrix_ridge)$values #its only the upper triangular
+is.positive.definite(gly_ser_cormatrix_ridge, tol=1e-8)
+### end ridge regularization
+
+### begin cholensky decomposition
+# This function checks if the input matrix is positive definite using the chol function. If 
+# it is not positive definite, the function will add a small positive constant to the diagonal 
+# elements of the matrix until it is positive definite, then return the regularized matrix.
+# Function to regularize a correlation matrix
+gly_ser_cormatrix_chol <- chol(gly_ser_cormatrix)
+is.positive.definite(as.matrix(gly_ser_cormatrix_chol), tol=1e-8)
+# make symmetric (machine precision)
+gly_ser_cormatrix_chol[lower.tri(gly_ser_cormatrix_chol)] = t(gly_ser_cormatrix_chol)[lower.tri(gly_ser_cormatrix_chol)]
+gly_ser_cormatrix_chol
+dim(gly_ser_cormatrix_chol)
+isSymmetric.matrix(gly_ser_cormatrix_chol)
+eigen(gly_ser_cormatrix_chol)$values
+is.positive.definite(as.matrix(gly_ser_cormatrix_chol), tol=1e-8)
+### end cholensky decomposition
+
+# It's important to note that adding a small positive constant to the diagonal of a correlation matrix 
+# to make it positive definite is not a general solution and it's not recommended for all cases, and 
+# it's better to consider other options like adding a multiple of the identity matrix, adding a small 
+# random noise matrix or using other techniques like the eigenvalue decomposition.
+
+### begin 
+
+gly_ser_glasso <- EBICglasso(gly_ser_cormatrix_chol, n_samples_all, gamma = 0.5, penalize.diagonal = FALSE, nlambda = 100, 
                           lambda.min.ratio = 0.01, returnAllResults = FALSE, checkPD = TRUE, 
                           countDiagonal = FALSE, refit = FALSE, threshold = FALSE,
                           verbose = TRUE)
@@ -163,6 +257,21 @@ corrplot(gly_ser_glasso, type = "upper", order = "hclust",
 qgraph(gly_ser_glasso, graph = "glasso", sampleSize = n_samples_all,
        layout = "spring", refit = FALSE, title = "Original")
 
+### end everything together
+
+
+
+# just control
+# ridge regularization
+is.positive.definite(gly_ser_cormatrix_control, tol=1e-8)
+# check if the matrix is positive definite or not
+eigen(gly_ser_cormatrix_control)$values
+# Add the constant to the diagonal of the matrix
+epsilon <- 0.0001
+gly_ser_cormatrix_control <- gly_ser_cormatrix_control + diag(rep(epsilon, nrow(gly_ser_cormatrix_control)))
+eigen(gly_ser_cormatrix_control)$values
+is.positive.definite(gly_ser_cormatrix_control, tol=1e-8)
+
 
 gly_ser_glasso_control <- EBICglasso(gly_ser_cormatrix_control, n_samples_control, gamma = 0.5, penalize.diagonal = FALSE, nlambda = 100, 
                                   lambda.min.ratio = 20, returnAllResults = FALSE, checkPD = TRUE, 
@@ -170,14 +279,29 @@ gly_ser_glasso_control <- EBICglasso(gly_ser_cormatrix_control, n_samples_contro
                                   verbose = TRUE)
 corrplot(gly_ser_glasso_control, type = "upper", order = "hclust", 
          tl.col = "black", tl.srt = 45)
+qgraph(gly_ser_glasso_control, graph = "glasso", sampleSize = n_samples_all,
+       layout = "spring", refit = FALSE, title = "Original")
 
+#chlorpyrifos
+# ridge regularization
+is.positive.definite(gly_ser_cormatrix_cpf, tol=1e-8)
+# check if the matrix is positive definite or not
+eigen(gly_ser_cormatrix_cpf)$values
+# Add the constant to the diagonal of the matrix
+epsilon <- 0.0001
+gly_ser_cormatrix_cpf <- gly_ser_cormatrix_cpf + diag(rep(epsilon, nrow(gly_ser_cormatrix_cpf)))
+eigen(gly_ser_cormatrix_cpf)$values
+is.positive.definite(gly_ser_cormatrix_cpf, tol=1e-8)
 gly_ser_glasso_cpf <- EBICglasso(gly_ser_cormatrix_cpf, n_samples_cpf, gamma = 0.5, penalize.diagonal = FALSE, nlambda = 100, 
                               lambda.min.ratio = 0.01, returnAllResults = FALSE, checkPD = TRUE, 
                               countDiagonal = FALSE, refit = FALSE, threshold = FALSE,
                               verbose = TRUE)
 corrplot(gly_ser_glasso_cpf, type = "upper", order = "hclust", 
          tl.col = "black", tl.srt = 45)
+qgraph(gly_ser_glasso_cpf, graph = "glasso", sampleSize = n_samples_all,
+       layout = "spring", refit = FALSE, title = "Original")
 
+# 24d
 gly_ser_glasso_d <- EBICglasso(gly_ser_cormatrix_d, n_samples_d, gamma = 0.5, penalize.diagonal = FALSE, nlambda = 100, 
                             lambda.min.ratio = 0.01, returnAllResults = FALSE, checkPD = TRUE, 
                             countDiagonal = FALSE, refit = FALSE, threshold = FALSE,

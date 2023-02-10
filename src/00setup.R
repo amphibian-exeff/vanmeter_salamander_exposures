@@ -5,6 +5,7 @@
 
 #Install and load supporting libraries.
 print(Sys.info()[4])
+#BiocManager::install("pathview")
 
 library(dplyr)
 library(forcats)
@@ -23,16 +24,18 @@ library(igraph)
 library(GGally)
 library(matrixcalc)
 library(Matrix)
+library(pathview)
+#browseVignettes("pathview")
 
 print("list of loaded packages: ")
 print((.packages()))
 
 #tom epa windows
 if(Sys.info()[4]=="DZ2626UTPURUCKE"){
-  rvm_root <- file.path("c:", "git", "vanmeter_gsh_salamanders")
+  rvm_root <- file.path("c:", "git", "vanmeter_salamander_exposures")
 }
 if(Sys.info()[4]=="LZ2626UTPURUCKE"){
-  rvm_root <- file.path("c:","git","vanmeter_gsh_salamanders")
+  rvm_root <- file.path("c:","git","vanmeter_salamander_exposures")
 }
 
 print(paste("Root directory location: ", rvm_root, sep=""))
@@ -83,3 +86,8 @@ dim(rvm_gluconeogenesis)
 # glu ala cycle
 rvm_glu_ala_cycle <- read.csv(file.path(rvm_data_in,"/glu_ala_cycle_peaks.csv"), stringsAsFactors = TRUE)
 dim(rvm_glu_ala_cycle)
+
+# glu ala cycle
+cpf_ratios <- read.csv(file.path(rvm_data_in,"cpf_ratios.csv"), stringsAsFactors = TRUE)
+dim(cpf_ratios)
+

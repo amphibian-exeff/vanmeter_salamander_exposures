@@ -10,16 +10,17 @@ which158_controls <- which(rvm_gsh_158$treatment=='C')
 which158_24d <- which(rvm_gsh_158$treatment=='24D')
 which158_cps <- which(rvm_gsh_158$treatment=='CPS')
 # dropping logged outliers for averaged dilutions
-which158_logged_controls <- which(rvm_gsh158_logged$treatment=='C')
-which158_logged_24d <- which(rvm_gsh158_logged$treatment=='24D')
-which158_logged_cps <- which(rvm_gsh158_logged$treatment=='CPS')
+# rvm_gsh158_logged does not exist but isnt used anywhere
+#which158_logged_controls <- which(rvm_gsh158_logged$treatment=='C')
+#which158_logged_24d <- which(rvm_gsh158_logged$treatment=='24D')
+#which158_logged_cps <- which(rvm_gsh158_logged$treatment=='CPS')
 
 
 ### We used the means of gsh 1:5 and 1:8 to generate the results
 # this is what we use in the manuscript
 
 # original data
-View(rvm_gsh)
+#View(rvm_gsh)
 temp_view <- rvm_gsh %>%
   mutate(treatment = fct_relevel(treatment, 
                                  "C", "24D", "CPS"))
@@ -313,3 +314,4 @@ t.test(log(rvm_gsh$gsh_nM_mL[which158_controls]),log(rvm_gsh$gsh_nM_mL[which_24d
 
 #24d logged and drop outlier
 t.test(log(rvm_gsh_158$gsh_nM_mL[which158_controls]),log(rvm_gsh_158$gsh_nM_mL[which158_24d]))
+

@@ -3,11 +3,12 @@ View(rvm_urea)
 
 rvm_urea_mat <- rvm_urea[,3:ncol(rvm_urea)]
 dim(rvm_urea_mat)
+ncols_urea <- dim(rvm_urea_mat)[[2]]
 View(rvm_urea_mat)
 rvm_urea_mat_log <- log2(rvm_urea_mat)
 View(rvm_urea_mat_log)
 # standardize is in 00support_functions.R
-rvm_urea_std = normal_score_transform(rvm_urea_mat_log, 1:12)
+rvm_urea_std = normal_score_transform(rvm_urea_mat_log, 1:ncols_urea)
 View(rvm_urea_std) # standardized after log2 transformation
 
 rvm_urea_std_control <- rvm_urea_std[1:11,]
