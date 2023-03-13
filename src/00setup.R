@@ -91,3 +91,4 @@ dim(rvm_glu_ala_cycle)
 cpf_ratios <- read.csv(file.path(rvm_data_in,"cpf_ratios.csv"), stringsAsFactors = TRUE)
 dim(cpf_ratios)
 
+
