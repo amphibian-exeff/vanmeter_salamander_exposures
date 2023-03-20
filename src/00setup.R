@@ -25,6 +25,8 @@ library(GGally)
 library(matrixcalc)
 library(Matrix)
 library(pathview)
+library(pheatmap)
+
 #browseVignettes("pathview")
 
 print("list of loaded packages: ")
@@ -68,7 +70,15 @@ colnames(rvm_gsh)
 # metabolites with multiple peas were summed into one peak
 
 # urea cycle
+rvm_all_peaks <- read.csv(file.path(rvm_data_in,"/all_significant_peaks.csv"), stringsAsFactors = TRUE)
+colnames(rvm_all_peaks)
+rownames(rvm_all_peaks)
+dim(rvm_all_peaks)
+
+# urea cycle
 rvm_urea <- read.csv(file.path(rvm_data_in,"/urea_cycle_peaks.csv"), stringsAsFactors = TRUE)
+colnames(rvm_urea)
+rownames(rvm_urea)
 dim(rvm_urea)
 
 # gly ser metabolism

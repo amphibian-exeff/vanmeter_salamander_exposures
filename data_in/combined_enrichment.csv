@@ -1,0 +1,32 @@
+metabolite_set,liver_cpf,swab_cpf,liver_24d,swab_24d
+Alanine Metabolism,0.00144,0.179,0.00217,0.634
+Alpha Linolenic Acid and Linoleic Acid Metabolism,0.5,0.179,0.5,0.286
+Amino Sugar Metabolism,0.188,0.303,0.5,0.5
+Ammonia Recycling,0.0189,0.5,0.0214,0.5
+Arginine and Proline Metabolism,0.0178,0.5,0.0206,0.5
+Aspartate Metabolism,0.0893,0.5,0.00853,0.5
+Beta-Alanine Metabolism,0.193,0.5,0.0267,0.5
+Beta Oxidation of Very Long Chain Fatty Acids,0.5,0.439,0.5,0.5
+De Novo Triacylglycerol Biosynthesis,0.193,0.5,0.5,0.5
+Fatty Acid Biosynthesis,0.5,0.00506,0.5,0.5
+Fructose and Mannose Degradation,0.5,0.303,0.5,0.5
+Galactose Metabolism,0.102,0.179,0.00363,0.5
+Gluconeogenesis,0.024,0.5,0.00853,0.5
+Glucose-Alanine Cycle,0.0189,0.303,0.0214,0.465
+Glutamate Metabolism,0.00229,0.292,0.0315,0.228
+Glutathione Metabolism,0.072,0.5,0.5,0.5
+Glycerolipid Metabolism,0.102,0.5,0.0294,0.5
+Glycine and Serine Metabolism,1.24E-04,0.5,2.81E-04,0.465
+Glycolysis,0.102,0.5,0.0294,0.5
+Homocysteine Degradation,0.193,0.5,0.5,0.5
+Lactose Degradation,0.0445,0.284,0.5,0.5
+Malate-Aspartate Shuttle,0.0562,0.5,0.0537,0.465
+Methionine Metabolism,0.159,0.5,0.2,0.5
+Mitochondrial Electron Transport Chain,0.184,0.5,0.5,0.5
+Phenylalanine and Tyrosine Metabolism,0.5,0.5,0.2,0.5
+Propanoate Metabolism,0.5,0.5,0.2,0.5
+Spermidine and Spermine Biosynthesis,0.168,0.5,0.2,0.5
+Starch and Sucrose Metabolism,0.168,0.5,0.2,0.5
+Urea Cycle,0.00229,0.303,0.00363,0.465
+"Valine, Leucine and Isoleucine Degradation",0.168,0.5,0.2,0.5
+Warburg Effect,0.0206,0.5,0.2,0.5
