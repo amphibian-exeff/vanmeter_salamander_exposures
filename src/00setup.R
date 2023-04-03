@@ -54,10 +54,14 @@ print(paste("check to see if R can access GSF file OK: ", boo))
 #Weight (g)
 #SVL (mm)
 
-#gsh data (ache added 5/2022)
+#gsh data (ache added 5/2022) # liver data
 rvm_gsh <- read.csv(file.path(rvm_data_in,"/Final_GSH_Salamanders_April_2020.csv"), stringsAsFactors = TRUE)
 #View(rvm_gsh)
 colnames(rvm_gsh)[1] <- 'treatment'
+
+#gsh data swabs
+rvm_gsh_swabs <- read.csv(file.path(rvm_data_in,"/gsh_swab_concs.csv"), stringsAsFactors = TRUE)
+#View(rvm_gsh_swabs)
 
 # Using the average of gsh 1_5 and 1_8 for manuscript
 rvm_gsh$gsh_nM_mL <- rowMeans(cbind(rvm_gsh$gsh_1_5_dilution_nM_mL, rvm_gsh$gsh_1_8_dilution_nM_mL))
@@ -69,7 +73,13 @@ colnames(rvm_gsh)
 # peaks from wmh/dag
 # metabolites with multiple peas were summed into one peak
 
-# urea cycle
+# combined_enrichment
+rvm_combined_enrichment <- read.csv(file.path(rvm_data_in,"/combined_enrichment.csv"), stringsAsFactors = TRUE)
+colnames(rvm_combined_enrichment)
+rownames(rvm_combined_enrichment)
+dim(rvm_combined_enrichment)
+
+# all peaks
 rvm_all_peaks <- read.csv(file.path(rvm_data_in,"/all_significant_peaks.csv"), stringsAsFactors = TRUE)
 colnames(rvm_all_peaks)
 rownames(rvm_all_peaks)

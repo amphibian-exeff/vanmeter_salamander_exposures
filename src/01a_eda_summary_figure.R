@@ -97,6 +97,22 @@ p6 <- rvm_gsh %>%
   theme_bw()
 p6
 
+# glutathione swabs
+colnames(rvm_gsh)
+colnames(rvm_gsh_swabs)
+unique(rvm_gsh_swabs$treatment)
+max(rvm_gsh_swabs$total_GSH)
+p7 <- rvm_gsh_swabs %>%
+  mutate(treatment = fct_relevel(treatment, 
+                                 "CON", "D", "CHL")) %>%
+  ggplot(aes(x=treatment, y=total_GSH, fill=treatment)) +
+  geom_boxplot() +
+  geom_jitter(shape=16, position=position_jitter(0.2), color="darkorchid1") +
+  xlab("Treatment") + ylab("Glutathione (nM_mL) Swabs") + ggtitle("Glutathione") +
+  ylim(0,0.3) +
+  theme_bw() + theme(legend.position = "none")
+p7
+
 #combined figure jpg
 responses_combined <- ggarrange(p6, p3, heights = c(4, 4), widths=c(3.7,2.7),
                           labels = c("A", "B"),
