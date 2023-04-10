@@ -94,7 +94,7 @@ p6 <- rvm_gsh %>%
   geom_boxplot() +
   geom_jitter(shape=16, position=position_jitter(0.2), color="darkorchid1") +
   xlab("Treatment") + ylab("Acetylcholinesterase (ug_min_mg)") + ggtitle("Acetylcholinesterase") +
-  theme_bw()
+  theme_bw() + theme(legend.position = "none")
 p6
 
 # glutathione swabs
@@ -108,19 +108,19 @@ p7 <- rvm_gsh_swabs %>%
   ggplot(aes(x=treatment, y=total_GSH, fill=treatment)) +
   geom_boxplot() +
   geom_jitter(shape=16, position=position_jitter(0.2), color="darkorchid1") +
-  xlab("Treatment") + ylab("Glutathione (nM_mL) Swabs") + ggtitle("Glutathione") +
+  xlab("Treatment") + ylab("Glutathione (nM_mL)") + ggtitle("Glutathione Swabs") +
   ylim(0,0.3) +
-  theme_bw() + theme(legend.position = "none")
+  theme_bw()
 p7
 
 #combined figure jpg
-responses_combined <- ggarrange(p6, p3, heights = c(4, 4), widths=c(3.7,2.7),
-                          labels = c("A", "B"),
-                          ncol = 2, nrow = 1)
+responses_combined <- ggarrange(p6, p3, p7, heights = c(4, 4, 4), widths=c(2.7,2.7,3.7),
+                          labels = c("A", "B", "C"),
+                          ncol = 3, nrow = 1)
 responses_combined
 
 # combined figure
 response_figure_filename <- paste(rvm_graphics,"/rvm_salamander_response_figure.jpg",sep="")
-jpeg(response_figure_filename, width = 7, height = 4, units = "in",res=600)
+jpeg(response_figure_filename, width = 9.1, height = 4, units = "in",res=600)
  responses_combined
 dev.off()
