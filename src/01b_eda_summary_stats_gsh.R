@@ -210,3 +210,54 @@ aggregate(log(gsh_1_8_dilution_nM_mL) ~ treatment,
 #3       CPS                     0.9713493                      0.8998137
 
 
+
+### SWAB data for glutathione
+colnames(rvm_gsh_swabs)
+Summarize(total_GSH ~ treatment, data=rvm_gsh_swabs, digits=3)
+#treatment  n  mean    sd   min    Q1 median    Q3   max
+#1       CHL 11 0.150 0.047 0.085 0.130  0.134 0.157 0.273
+#2       CON 11 0.129 0.016 0.091 0.123  0.130 0.138 0.146
+#3         D 11 0.148 0.038 0.107 0.123  0.145 0.156 0.247
+
+# normality tests--swabs
+# shapiro.test
+# p.value: an approximate p-value for the test. This is said in Royston (1995) 
+# to be adequate for p.value < 0.1.
+aggregate(total_GSH ~ treatment,
+          data = rvm_gsh_swabs,
+          FUN = function(x) {y <- shapiro.test(x); c(y$statistic, y$p.value)})
+#treatment total_GSH.W total_GSH.V2
+#1       CHL  0.81027986   0.01284627
+#2       CON  0.87454060   0.08864277
+#3         D  0.81657098   0.01554492
+
+# identify outliers
+rvm_gsh_swabs %>%
+  group_by(treatment) %>%
+  identify_outliers("total_GSH")
+#treatment ID    i_slope y_intercept f_slope total_GSH is.outlier is.extreme
+#<fct>     <fct>   <dbl>       <dbl>   <dbl>     <dbl> <lgl>      <lgl>     
+#1 CHL       CHL6   0.0069       0.102  0.0184    0.273  TRUE       TRUE      
+#2 CHL       CHL8   0.0032       0.105  0.0169    0.0847 TRUE       FALSE     
+#3 CON       CON8   0.0033       0.105  0.0169    0.0907 TRUE       FALSE     
+#4 D         D10    0.0062       0.120  0.0169    0.247  TRUE       FALSE  
+
+# save swab outliers
+outliers_swabs <- c(which(rvm_gsh_swabs$ID=='CHL6'), which(rvm_gsh_swabs$ID=='CHL8'),
+                which(rvm_gsh_swabs$ID=='CON8'), which(rvm_gsh_swabs$ID=='D10'))
+outliers_swabs
+
+# drop outliers and rerun tests
+# repeat normality tests but drop outliers
+dim(rvm_gsh_swabs)
+colnames(rvm_gsh_swabs_drop_outliers)
+rvm_gsh_swabs_drop_outliers <- rvm_gsh_swabs[-outliers_swabs,]
+dim(rvm_gsh_swabs_drop_outliers)
+aggregate(total_GSH ~ treatment,
+          data = rvm_gsh_swabs_drop_outliers,
+          FUN = function(x) {y <- shapiro.test(x); c(y$statistic, y$p.value)})
+#treatment total_GSH.W total_GSH.V2
+#1       CHL   0.8911902    0.2052204
+#2       CON   0.9450850    0.6108477
+#3         D   0.9603279    0.7896053
+
