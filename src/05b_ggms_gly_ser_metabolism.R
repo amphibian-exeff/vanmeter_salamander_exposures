@@ -37,6 +37,11 @@ rvm_gly_ser_gg <- melt(rvm_gly_ser_gg_wide, id.vars=c("treatment"))
 ggpairs(rvm_gly_ser_gg,                 # Data frame
         aes(color = treatment,  # Color by group (cat. variable)
             alpha = 0.5))     # Transparency
+
+ggplot(data = rvm_gly_ser_gg, aes(x=value)) + geom_density(aes(fill=treatment), alpha = 0.4) +
+  facet_wrap( ~ variable) +
+  scale_fill_brewer(palette = "Set1") +
+  ggtitle("gly ser metabolism")
 #######
 
 

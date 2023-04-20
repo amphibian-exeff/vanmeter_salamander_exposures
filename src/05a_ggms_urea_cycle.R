@@ -1,24 +1,24 @@
 dim(rvm_urea)
-View(rvm_urea)
+#View(rvm_urea)
 
 rvm_urea_mat <- rvm_urea[,3:ncol(rvm_urea)]
 dim(rvm_urea_mat)
 ncols_urea <- dim(rvm_urea_mat)[[2]]
-View(rvm_urea_mat)
+#View(rvm_urea_mat)
 rvm_urea_mat_log <- log2(rvm_urea_mat)
-View(rvm_urea_mat_log)
+#View(rvm_urea_mat_log)
 # standardize is in 00support_functions.R
 rvm_urea_std = normal_score_transform(rvm_urea_mat_log, 1:ncols_urea)
-View(rvm_urea_std) # standardized after log2 transformation
+#View(rvm_urea_std) # standardized after log2 transformation
 
 rvm_urea_std_control <- rvm_urea_std[1:11,]
-View(rvm_urea_std_control)
+#View(rvm_urea_std_control)
 rvm_urea_std_cpf <- rvm_urea_std[12:22,]
-View(rvm_urea_std_cpf)
+#View(rvm_urea_std_cpf)
 rvm_urea_std_d <- rvm_urea_std[23:33,]
-View(rvm_urea_std_d)
+#View(rvm_urea_std_d)
 rvm_urea_std_treatment <- rvm_urea_std[12:33,]
-View(rvm_urea_std_treatment)
+#View(rvm_urea_std_treatment)
 
 
 
@@ -26,16 +26,27 @@ View(rvm_urea_std_treatment)
 # convert to long format for ggplot
 rvm_urea_gg_wide <- cbind(as.factor(rvm_urea$treatment), rvm_urea_std)
 rvm_urea_gg_wide <- as.data.frame(rvm_urea_gg_wide)
-View(rvm_urea_gg_wide)
+#View(rvm_urea_gg_wide)
 colnames(rvm_urea_gg_wide)[1] <- "treatment"
 rvm_urea_gg_wide$treatment <- as.factor(as.character(rvm_urea_gg_wide$treatment)) 
-View(rvm_urea_gg_wide)
+#View(rvm_urea_gg_wide)
 rvm_urea_gg <- melt(rvm_urea_gg_wide, id.vars=c("treatment"))
-View(rvm_urea_gg)
+#View(rvm_urea_gg)
 
+colnames(rvm_urea_gg)
+min(rvm_urea_gg$value)
+max(rvm_urea_gg$value)
+unique(rvm_urea_gg$variable)
+unique(rvm_urea_gg$treatment)
 ggpairs(rvm_urea_gg,                 # Data frame
         aes(color = treatment,  # Color by group (cat. variable)
             alpha = 0.5))     # Transparency
+
+ggplot(data = rvm_urea_gg, aes(x=value)) + geom_density(aes(fill=treatment), alpha = 0.4) +
+  facet_wrap( ~ variable) +
+  scale_fill_brewer(palette = "Set1") +
+  ggtitle("urea cycle")
+
 #######
 
 
