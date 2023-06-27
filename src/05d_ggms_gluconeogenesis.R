@@ -1,5 +1,5 @@
 dim(rvm_gluconeogenesis)
-View(rvm_gluconeogenesis)
+#View(rvm_gluconeogenesis)
 
 dim(rvm_gluconeogenesis)
 rvm_gluconeogenesis <- rvm_gluconeogenesis
@@ -40,6 +40,12 @@ rvm_gluconeogenesis_gg <- melt(rvm_gluconeogenesis_gg_wide, id.vars=c("treatment
 ggpairs(rvm_gluconeogenesis_gg,                 # Data frame
         aes(color = treatment,  # Color by group (cat. variable)
             alpha = 0.5))     # Transparency
+
+ggplot(data = rvm_gluconeogenesis_gg, aes(x=value)) + geom_density(aes(fill=treatment), alpha = 0.4) +
+  facet_wrap( ~ variable) +
+  scale_fill_brewer(palette = "Set1") +
+  ggtitle("gluconeogenesis metabolism")
+
 #######
 
 

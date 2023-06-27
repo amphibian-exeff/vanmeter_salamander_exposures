@@ -41,6 +41,12 @@ rvm_glu_gg <- melt(rvm_glu_gg_wide, id.vars=c("treatment"))
 ggpairs(rvm_glu_gg,                 # Data frame
         aes(color = treatment,  # Color by group (cat. variable)
             alpha = 0.5))     # Transparency
+
+ggplot(data = rvm_glu_gg, aes(x=value)) + geom_density(aes(fill=treatment), alpha = 0.4) +
+  facet_wrap( ~ variable) +
+  scale_fill_brewer(palette = "Set1") +
+  ggtitle("glu metabolism")
+
 #######
 
 

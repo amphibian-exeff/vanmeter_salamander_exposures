@@ -1,74 +1,86 @@
 #dim(rvm_all_peaks)
 dim(rvm_all_peaks)
-rvm_all_peaks <- rvm_all_peaks
+#rvm_all_peaks <- rvm_all_peaks
 #View(rvm_all_peaks)
 
-rvm_all_peaks_mat <- rvm_all_peaks[,3:ncol(rvm_all_peaks)]
-dim(rvm_all_peaks_mat)
-ncols_all_peaks <- dim(rvm_all_peaks_mat)[[2]]
+colnames(rvm_all_peaks)
+liver_peaks <- which(rvm_all_peaks$source=="liver")
+rvm_all_peaks_mat_liver <- rvm_all_peaks[liver_peaks,4:ncol(rvm_all_peaks)]
+dim(rvm_all_peaks_mat_liver)
+ncols_all_peaks_liver <- dim(rvm_all_peaks_mat_liver)[[2]]
+ncols_all_peaks_liver
 #View(rvm_all_peaks_mat)
-rvm_all_peaks_mat_log <- log2(rvm_all_peaks_mat)
+rvm_all_peaks_mat_log_liver <- log2(rvm_all_peaks_mat_liver)
+dim(rvm_all_peaks_mat_log_liver)
 
 #View(rvm_all_peaks_mat_log)
 # standardize is in 00support_functions.R
-rvm_all_peaks_std2 = normal_score_transform(rvm_all_peaks_mat, 1:ncols_all_peaks)
-rvm_all_peaks_std2 <- cbind(rvm_all_peaks[,2],rvm_all_peaks_std)
-colnames(rvm_all_peaks_std2)[[1]] <- "treatment"
-#View(rvm_all_peaks_std) # standardized after log2 transformation
+rvm_all_peaks_std2_liver = normal_score_transform(rvm_all_peaks_mat_liver, 1:ncols_all_peaks_liver)
+rvm_all_peaks_std2_liver <- cbind(rvm_all_peaks[liver_peaks,2],rvm_all_peaks_std2_liver)
+colnames(rvm_all_peaks_std2_liver)[[1]] <- "treatment"
+#View(rvm_all_peaks_std2_liver) # standardized after log2 transformation
 
 # summarize for a heatmap
-dim(rvm_all_peaks_std2)
-colnames(rvm_all_peaks_std2)
-rvm_all_peaks_heatmap_values <- rvm_all_peaks_std2 %>%
+dim(rvm_all_peaks_std2_liver)
+colnames(rvm_all_peaks_std2_liver)
+rvm_all_peaks_heatmap_values_liver <- rvm_all_peaks_std2_liver %>%
   group_by(treatment) %>%
   summarise_all(.funs = c(mean="mean"))
   #summarise_all(across(starts_with("numeric_column"), mean, na.rm = TRUE))
 
-rvm_all_peaks_heatmap_values2 <- t(rvm_all_peaks_heatmap_values)
-colnames(rvm_all_peaks_heatmap_values2) <- c("x24D","Chlorpyrifos","Control")
-rvm_all_peaks_heatmap_values2 <- as.data.frame(rvm_all_peaks_heatmap_values2[-1,])
-rvm_all_peaks_heatmap_values2$x24D <- as.numeric(rvm_all_peaks_heatmap_values2$x24D)
-rvm_all_peaks_heatmap_values2$Chlorpyrifos <- as.numeric(rvm_all_peaks_heatmap_values2$Chlorpyrifos)
-rvm_all_peaks_heatmap_values2$Control <- as.numeric(rvm_all_peaks_heatmap_values2$Control)
-rownames(rvm_all_peaks_heatmap_values2) <- gsub("_mean", "", rownames(rvm_all_peaks_heatmap_values2))
-pheatmap(rvm_all_peaks_heatmap_values2)
+rvm_all_peaks_heatmap_values2_liver <- t(rvm_all_peaks_heatmap_values_liver)
+colnames(rvm_all_peaks_heatmap_values2_liver) <- c("x24D","Chlorpyrifos","Control")
+rvm_all_peaks_heatmap_values2_liver <- as.data.frame(rvm_all_peaks_heatmap_values2_liver[-1,])
+rvm_all_peaks_heatmap_values2_liver$x24D <- as.numeric(rvm_all_peaks_heatmap_values2_liver$x24D)
+rvm_all_peaks_heatmap_values2_liver$Chlorpyrifos <- as.numeric(rvm_all_peaks_heatmap_values2_liver$Chlorpyrifos)
+rvm_all_peaks_heatmap_values2_liver$Control <- as.numeric(rvm_all_peaks_heatmap_values2_liver$Control)
+rownames(rvm_all_peaks_heatmap_values2_liver) <- gsub("_mean", "", rownames(rvm_all_peaks_heatmap_values2_liver))
+pheatmap(rvm_all_peaks_heatmap_values2_liver)
 
-rvm_all_peaks_std_control <- rvm_all_peaks_std[1:11,]
-#View(rvm_all_peaks_std_control)
-rvm_all_peaks_std_cpf <- rvm_all_peaks_std[12:22,]
-#View(rvm_all_peaks_std_cpf)
-rvm_all_peaks_std_d <- rvm_all_peaks_std[23:33,]
-#View(rvm_all_peaks_std_d)
-rvm_all_peaks_std_treatment <- rvm_all_peaks_std[12:33,]
-#View(rvm_all_peaks_std_treatment)
-
+rvm_all_peaks_std_control_liver <- rvm_all_peaks_std2_liver[1:11,]
+#View(rvm_all_peaks_std2_control_liver)
+rvm_all_peaks_std_cpf_liver <- rvm_all_peaks_std2_liver[12:22,]
+#View(rvm_all_peaks_std2_cpf_liver)
+rvm_all_peaks_std_d_liver <- rvm_all_peaks_std2_liver[23:33,]
+#View(rvm_all_peaks_std2_d_liver)
+rvm_all_peaks_std_treatment_liver <- rvm_all_peaks_std2_liver[12:33,]
+#View(rvm_all_peaks_std_treatment_liver)
+rvm_all_peaks_std_liver <- rvm_all_peaks_std2_liver
 
 
 ###### not using this at the moment
 # convert to long format for ggplot
-rvm_all_peaks_gg_wide <- cbind(as.factor(rvm_all_peaks$treatment), rvm_all_peaks_std)
-rvm_all_peaks_gg_wide <- as.data.frame(rvm_all_peaks_gg_wide)
+rvm_all_peaks_gg_wide_liver <- cbind(as.factor(rvm_all_peaks_liver$treatment), rvm_all_peaks_std_liver)
+rvm_all_peaks_gg_wide_liver <- as.data.frame(rvm_all_peaks_gg_wide_liver)
 #View(rvm_all_peaks_gg_wide)
-colnames(rvm_all_peaks_gg_wide)[1] <- "treatment"
-rvm_all_peaks_gg_wide$treatment <- as.factor(as.character(rvm_all_peaks_gg_wide$treatment)) 
+colnames(rvm_all_peaks_gg_wide_liver)[1] <- "treatment"
+rvm_all_peaks_gg_wide_liver$treatment <- as.factor(as.character(rvm_all_peaks_gg_wide_liver$treatment)) 
 #View(rvm_all_peaks_gg_wide)
-rvm_all_peaks_gg <- melt(rvm_all_peaks_gg_wide, id.vars=c("treatment"))
+rvm_all_peaks_gg_liver <- melt(rvm_all_peaks_gg_wide_liver, id.vars=c("treatment"))
 #View(rvm_all_peaks_gg)
 
-head(rvm_all_peaks_gg)
-ggpairs(rvm_all_peaks_gg,                 # Data frame
+head(rvm_all_peaks_gg_liver)
+ggpairs(rvm_all_peaks_gg_liver,                 # Data frame
         aes(color = treatment,  # Color by group (cat. variable)
             alpha = 0.5))     # Transparency
 
+
+ggplot(data = rvm_all_peaks_gg_liver, aes(x=value)) + geom_density(aes(fill=treatment), alpha = 0.4) +
+  facet_wrap( ~ variable) +
+  scale_fill_brewer(palette = "Set1") +
+  ggtitle("all identified peaks")
+
+
+
 #  ggplot for histogram and metabolite-specific boxplots
-head(rvm_all_peaks_gg_wide)
-dim(rvm_all_peaks_gg_wide)
+head(rvm_all_peaks_gg_wide_liver)
+dim(rvm_all_peaks_gg_wide_liver)
 ggpairs(
-  rvm_all_peaks_gg_wide[,2:28],
+  rvm_all_peaks_gg_wide_liver[,2:28],
   upper = list(continuous = ggally_density, combo = ggally_box_no_facet),
   lower = list(continuous = ggally_points, combo = ggally_dot_no_facet)
 )
-#######
+####### end not using this
 
 
 # the required sample size for covariance matrices depends on the distribution of the variables being measured. 
@@ -105,46 +117,46 @@ ggpairs(
 
 
 # paired scatterplots
-pairs(rvm_all_peaks_std, col=rvm_all_peaks$treatment)
-pairs(rvm_all_peaks_std_control)
-pairs(rvm_all_peaks_std_cpf)
-pairs(rvm_all_peaks_std_d)
+pairs(rvm_all_peaks_std_liver, col=rvm_all_peaks_std_liver$treatment)
+pairs(rvm_all_peaks_std_control_liver)
+pairs(rvm_all_peaks_std_cpf_liver)
+pairs(rvm_all_peaks_std_d_liver)
 
 #for everything, we don't have sample sizes to do treatments
-n_samples_all <- nrow(rvm_all_peaks_std)
-n_samples_control <- nrow(rvm_all_peaks_std_control)
-n_samples_cpf <- nrow(rvm_all_peaks_std_cpf)
-n_samples_d <- nrow(rvm_all_peaks_std_d)
+n_samples_all_liver <- nrow(rvm_all_peaks_std_liver)
+n_samples_control_liver <- nrow(rvm_all_peaks_std_control_liver)
+n_samples_cpf_liver <- nrow(rvm_all_peaks_std_cpf_liver)
+n_samples_d_liver <- nrow(rvm_all_peaks_std_d_liver)
 
 
 ##### compute correlations covariance
 ### all together
 # very important, correlation is within individuals, not across treatments, so does not
 # indicate anything regrarding effects of treatment
-all_peaks_cormatrix <- cor_auto(rvm_all_peaks_std)
-all_peaks_cov <- cov(rvm_all_peaks_std)
+all_peaks_cormatrix_liver <- cor_auto(rvm_all_peaks_std_liver)
+all_peaks_cov_liver <- cov(rvm_all_peaks_std_liver)
 #all_peaks_cormatrix <- var(rvm_all_peaks_std)
 #all_peaks_cormatrix <- as.matrix(forceSymmetric(all_peaks_cormatrix))
 # check if the matrix is positive definite or not
-is.positive.definite(all_peaks_cov, tol=1e-8)
-eigen(all_peaks_cov)$values # sll should be positive for positive definite
-corrplot(all_peaks_cov, type = "upper", order = "hclust", 
+is.positive.definite(all_peaks_cov_liver, tol=1e-8)
+eigen(all_peaks_cov_liver)$values # sll should be positive for positive definite
+corrplot(all_peaks_cov_liver, type = "upper", order = "hclust", 
          tl.col = "black", tl.srt = 45, diag=F)
 # uses glasso
-all_peaks_glasso <- qgraph(all_peaks_cov, graph = "glasso", sampleSize = n_samples_all,
+all_peaks_glasso_liver <- qgraph(all_peaks_cov_liver, graph = "glasso", sampleSize = n_samples_all,
                          layout = "spring", refit = FALSE, title = "all_peaks", threshold=T)
-plot(all_peaks_glasso)
+plot(all_peaks_glasso_liver)
 # Estimate network using glasso needs the covariance matrix
 # the glasso function is an implementation of the graphical lasso algorithm, 
 # which is a method for estimating sparse precision matrices and the corresponding 
 # Gaussian graphical models. The qgraph function is a tool for visualizing 
 # and manipulating graphs and networks.
-glasso_fit <- glasso(all_peaks_cov, rho=0)
+glasso_fit_liver <- glasso(all_peaks_cov_liver, rho=0)
 # Extract estimated adjacency matrix from the glasso_fit
-adj_matrix <- glasso_fit$wi
+adj_matrix_liver <- glasso_fit_liver$wi
 # Plot estimated network
-all_peaks_qgraph_adjmatrix_cov <- qgraph(adj_matrix, layout = "spring", labels = colnames(all_peaks_cormatrix))
-plot(all_peaks_qgraph_adjmatrix_cov)
+all_peaks_qgraph_adjmatrix_cov_liver <- qgraph(adj_matrix_liver, layout = "spring", labels = colnames(all_peaks_cormatrix_liver))
+plot(all_peaks_qgraph_adjmatrix_cov_liver)
 #library(patchwork)
 #(plot(all_peaks_glasso) | plot(all_peaks_glasso))/(plot(all_peaks_qgraph_adjmatrix_cov))
 #library(cowplot)
@@ -153,19 +165,19 @@ plot(all_peaks_qgraph_adjmatrix_cov)
 ### controls only
 # control corrplot works but qgraph FAILS
 # control correlation
-all_peaks_cormatrix_control <- cor_auto(rvm_all_peaks_std_control)
-is.positive.definite(all_peaks_cormatrix_control, tol=1e-8)
-eigen(all_peaks_cormatrix_control)$values # sll should be positive for positive definite
-corrplot(all_peaks_cormatrix_control, type = "upper", order = "hclust", 
+all_peaks_cormatrix_control_liver <- cor_auto(rvm_all_peaks_std_control_liver)
+is.positive.definite(all_peaks_cormatrix_control_liver, tol=1e-8)
+eigen(all_peaks_cormatrix_control_liver)$values # sll should be positive for positive definite
+corrplot(all_peaks_cormatrix_control_liver, type = "upper", order = "hclust", 
          tl.col = "black", tl.srt = 45)
 # control covariance
-all_peaks_cov_control <- cov(rvm_all_peaks_std_control)
-is.positive.definite(all_peaks_cov_control, tol=1e-8)
-eigen(all_peaks_cov_control)$values # sll should be positive for positive definite
-corrplot(all_peaks_cov_control, type = "upper", order = "hclust", 
+all_peaks_cov_control_liver <- cov(rvm_all_peaks_std_control_liver)
+is.positive.definite(all_peaks_cov_control_liver, tol=1e-8)
+eigen(all_peaks_cov_control_liver)$values # sll should be positive for positive definite
+corrplot(all_peaks_cov_control_liver, type = "upper", order = "hclust", 
          tl.col = "black", tl.srt = 45)
 
-qgraph(all_peaks_cov_control, graph = "glasso", sampleSize = n_samples_control,
+qgraph(all_peaks_cov_control_liver, graph = "glasso", sampleSize = n_samples_control,
        layout = "spring", refit = FALSE, title = "Original")
 
 

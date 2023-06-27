@@ -40,6 +40,12 @@ ggpairs(rvm_glu_ala_gg,                 # Data frame
         aes(color = treatment,  # Color by group (cat. variable)
             alpha = 0.5))     # Transparency
 
+ggplot(data = rvm_glu_ala_gg, aes(x=value)) + geom_density(aes(fill=treatment), alpha = 0.4) +
+  facet_wrap( ~ variable) +
+  scale_fill_brewer(palette = "Set1") +
+  ggtitle("glucose-alanine metabolism")
+
+
 #  ggplot for histogram and metabolite-specific boxplots
 head(rvm_glu_ala_gg_wide)
 ggpairs(
