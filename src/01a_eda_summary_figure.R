@@ -47,6 +47,7 @@ p3 <- rvm_gsh %>%
   geom_boxplot() +
   geom_jitter(shape=16, position=position_jitter(0.2), color="darkorchid1") +
   xlab("Treatment") + ylab("Glutathione (nM_mL)") + ggtitle("Glutathione") +
+  scale_x_discrete(labels = c("CON", "24D", "CPF")) +
   ylim(0,38) +
   theme_bw() + theme(legend.position = "none")
 p3
@@ -94,6 +95,7 @@ p6 <- rvm_gsh %>%
   geom_boxplot() +
   geom_jitter(shape=16, position=position_jitter(0.2), color="darkorchid1") +
   xlab("Treatment") + ylab("Acetylcholinesterase (ug_min_mg)") + ggtitle("Acetylcholinesterase") +
+  scale_x_discrete(labels = c("CON", "24D", "CPF")) +
   theme_bw() + theme(legend.position = "none")
 p6
 
@@ -110,6 +112,8 @@ p7 <- rvm_gsh_swabs %>%
   geom_jitter(shape=16, position=position_jitter(0.2), color="darkorchid1") +
   xlab("Treatment") + ylab("Glutathione (nM_mL)") + ggtitle("Glutathione Swabs") +
   ylim(0,0.3) +
+  scale_x_discrete(labels = c("CON", "24D", "CPF")) +
+  scale_fill_discrete(labels = c("CON", "24D", "CPF")) +
   theme_bw()
 p7
 

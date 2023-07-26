@@ -1,0 +1,174 @@
+Metabolite,HMDB ID,liver_cpf,liver_24d,swab_cpf,swab_24d
+2-Ketobutyric acid,HMDB0000005,1,1,0,1
+2-Hydro1ybutyric acid,HMDB0000008,0,0,1,1
+Adenine,HMDB0000034,1,0,0,0
+Melibiose,HMDB0000048,0,1,0,0
+Cellobiose,HMDB0000055,1,1,0,0
+Beta-Alanine,HMDB0000056,1,1,0,0
+Cholesterol,HMDB0000067,0,0,0,1
+Dimethylamine,HMDB0000087,0,0,0,1
+D-1ylose,HMDB0000098,0,0,0,0
+Gamma-Aminobutyric acid,HMDB0000112,1,1,0,1
+Glycolic acid,HMDB0000115,0,0,0,0
+Glyo1ylic acid,HMDB0000119,1,1,0,0
+D-Glucose,HMDB0000122,1,1,0,0
+Glycine,HMDB0000123,1,1,0,0
+Glycerol 3-phosphate,HMDB0000126,1,1,0,0
+D-Glucuronic acid,HMDB0000127,1,0,0,0
+Glycerol,HMDB0000131,0,1,0,1
+Fumaric acid,HMDB0000134,0,0,0,0
+Glycocholic acid,HMDB0000138,0,0,1,0
+Glyceric acid,HMDB0000139,1,1,0,0
+D-Galactose,HMDB0000143,1,0,1,0
+L-Glutamic acid,HMDB0000148,1,1,0,0
+Ethanolamine,HMDB0000149,1,1,0,0
+Hypo1anthine,HMDB0000157,0,1,0,0
+L-Tyrosine,HMDB0000158,0,1,0,0
+L-Phenylalanine,HMDB0000159,1,1,0,0
+L-Alanine,HMDB0000161,1,1,1,1
+L-Proline,HMDB0000162,1,1,0,0
+L-Threonine,HMDB0000167,1,1,0,0
+L-Asparagine,HMDB0000168,1,1,0,0
+D-Mannose,HMDB0000169,0,0,1,0
+L-Isoleucine,HMDB0000172,1,1,0,0
+Maleic acid,HMDB0000176,0,1,1,1
+L-Lysine,HMDB0000182,1,1,0,0
+L-Lactic acid,HMDB0000190,1,1,0,0
+L-Aspartic acid,HMDB0000191,1,1,0,1
+Methylmalonic acid,HMDB0000202,0,1,0,0
+Oleic acid,HMDB0000207,1,0,0,1
+O1oglutaric acid,HMDB0000208,0,1,0,0
+myo-Inositol,HMDB0000211,0,1,0,0
+Ornithine,HMDB0000214,1,1,0,0
+N-Acetyl-D-glucosamine,HMDB0000215,1,1,0,0
+Palmitic acid,HMDB0000220,0,0,1,0
+O-Phosphoethanolamine,HMDB0000224,1,0,0,0
+Pyruvic acid,HMDB0000243,1,0,1,1
+Succinic acid,HMDB0000254,1,0,0,1
+Sucrose,HMDB0000258,1,0,0,0
+Thymine,HMDB0000262,1,1,0,0
+Pyroglutamic acid,HMDB0000267,0,0,1,1
+Sarcosine,HMDB0000271,0,1,0,0
+D-Ribose,HMDB0000283,0,0,0,1
+1anthine,HMDB0000292,0,1,0,0
+Urea,HMDB0000294,1,1,0,0
+Uracil,HMDB0000300,0,1,0,0
+Tyramine,HMDB0000306,0,0,0,0
+"3,4-Dihydro1ybutyric acid",HMDB0000337,0,0,1,1
+"2,3-Dihydro1yvaleric acid",HMDB0000421,0,0,0,0
+5-Hydro1ylysine,HMDB0000450,0,1,0,0
+3-Methylhistidine,HMDB0000479,1,1,0,0
+Caprylic acid,HMDB0000482,0,0,1,0
+Ribitol,HMDB0000508,0,1,0,1
+Capric acid,HMDB0000511,0,0,1,0
+Caproic acid,HMDB0000535,1,0,0,1
+Arabinonic acid,HMDB0000539,1,1,0,0
+Gamma-Butyrolactone,HMDB0000549,1,0,0,0
+Creatinine,HMDB0000562,1,1,0,0
+Elaidic acid,HMDB0000573,0,0,0,0
+L-Cysteine,HMDB0000574,1,0,0,0
+Erythronic acid,HMDB0000613,0,0,0,0
+Ethylmalonic acid,HMDB0000622,0,0,0,1
+Dodecanedioic acid,HMDB0000623,0,0,0,0
+Gluconic acid,HMDB0000625,1,1,0,0
+L-Arabinose,HMDB0000646,0,0,0,0
+D-Fructose,HMDB0000660,0,0,1,0
+Glutaric acid,HMDB0000661,0,0,0,1
+Heptanoic acid,HMDB0000666,0,0,1,1
+Linoleic acid,HMDB0000673,1,0,1,1
+L-Leucine,HMDB0000687,1,1,1,0
+Malonic acid,HMDB0000691,0,1,1,1
+L-Methionine,HMDB0000696,1,1,0,0
+1-Methylnicotinamide,HMDB0000699,0,1,0,0
+Hydro1ypropionic acid,HMDB0000700,0,0,0,0
+4-Hydro1ybutyric acid,HMDB0000710,0,0,0,0
+Hippuric acid,HMDB0000714,0,0,1,1
+Alpha-Hydro1yisobutyric acid,HMDB0000729,0,0,0,0
+Malic acid,HMDB0000744,1,0,0,1
+Hydro1yisocaproic acid,HMDB0000746,0,0,1,0
+3-Hydro1yisovaleric acid,HMDB0000754,0,0,0,0
+N-Acetyl-L-alanine,HMDB0000766,0,0,0,0
+Phenyllactic acid,HMDB0000779,0,0,0,0
+Azelaic acid,HMDB0000784,0,0,1,0
+Myristic acid,HMDB0000806,0,1,1,0
+Pentadecanoic acid,HMDB0000826,0,0,0,1
+Pelargonic acid,HMDB0000847,0,0,0,0
+L-Valine,HMDB0000883,1,0,1,0
+Tridecanoic acid,HMDB0000910,0,0,0,1
+L-Tryptophan,HMDB0000929,0,0,0,0
+Undecanoic acid,HMDB0000947,0,0,1,0
+Arachidonic acid,HMDB0001043,0,0,0,1
+Glyceraldehyde,HMDB0001051,1,1,0,0
+2-Hydro1yphenethylamine,HMDB0001065,0,0,0,0
+Aminomalonic acid,HMDB0001147,1,0,0,0
+Allose,HMDB0001151,1,0,0,0
+Tricosanoic acid,HMDB0001160,0,0,1,1
+L-Sorbose,HMDB0001266,0,1,0,0
+Hydro1ypyruvic acid,HMDB0001352,0,0,0,1
+Alpha-Linolenic acid,HMDB0001388,0,0,1,0
+Glucose 6-phosphate,HMDB0001401,1,1,0,0
+Niacinamide,HMDB0001406,0,1,0,0
+Putrescine,HMDB0001414,0,0,0,1
+Phosphate,HMDB0001429,1,1,1,0
+D-Ribose 5-phosphate,HMDB0001548,1,0,0,0
+Glucose 1-phosphate,HMDB0001586,0,1,0,0
+Methylsuccinic acid,HMDB0001844,0,0,1,1
+Benzoic acid,HMDB0001870,0,0,0,1
+Propylene glycol,HMDB0001881,0,0,1,1
+Eicosapentaenoic acid,HMDB0001999,0,0,0,1
+Docosahe1aenoic acid,HMDB0002183,0,0,1,0
+O1alic acid,HMDB0002329,0,0,1,0
+Terephthalic acid,HMDB0002428,0,0,0,1
+Erythrose,HMDB0002649,1,1,0,0
+Inositol phosphate,HMDB0002985,1,0,0,0
+"2,3-Butanediol",HMDB0003156,0,0,1,0
+Sedoheptulose,HMDB0003219,0,1,0,0
+Deo1yribose,HMDB0003224,1,0,0,0
+Hydro1ylamine,HMDB0003338,0,0,0,0
+Alpha-D-Glucose,HMDB0003345,0,1,0,0
+Carbonic acid,HMDB0003538,0,0,1,0
+Carbamic acid,HMDB0003551,1,1,1,1
+Cholesteryl decanoate,HMDB0003603,0,0,0,1
+Diethanolamine,HMDB0004437,1,0,0,0
+20alpha-Hydro1ycholesterol,HMDB0006283,0,0,0,1
+D-Mannose 1-phosphate,HMDB0006330,0,0,0,0
+"D-Glucurono-6,3-lactone",HMDB0006355,0,0,0,0
+Alanylglycine,HMDB0006899,0,0,0,0
+Beta-D-Glucopyranuronic acid,HMDB0010314,1,1,0,0
+3-O1ohe1anoic acid,HMDB0010717,0,0,1,0
+Dodecanol,HMDB0011626,0,0,0,0
+Iminodiacetic acid,HMDB0011753,0,1,0,0
+Ethylamine,HMDB0013231,0,0,1,0
+Norvaline,HMDB0013716,1,1,0,0
+Diisobutyl phthalate,HMDB0013835,0,0,0,0
+Acetohydro1amic Acid,HMDB0014691,0,0,1,0
+Hydro1yurea,HMDB0015140,0,1,0,0
+Mimosine,HMDB0015188,1,1,0,0
+Mannobiose,HMDB0029933,1,1,0,0
+Methyl beta-D-glucopyranoside,HMDB0029965,1,1,0,0
+Ethyl beta-D-glucopyranoside,HMDB0029968,0,0,0,1
+Ethyl-1-he1anol,HMDB0031231,0,0,1,0
+"1,3-Butanediol",HMDB0031320,0,0,1,0
+Acetamide,HMDB0031645,0,0,0,0
+Dibutyl phthalate,HMDB0033244,0,0,0,0
+L-Galactose,HMDB0033704,0,1,0,0
+1-Propylamine,HMDB0034006,1,0,0,0
+"3-(3,4-Dimetho1yphenyl)-2-propenoic acid",HMDB0034315,0,0,0,0
+4-Methylnonanoic acid,HMDB0034849,0,0,0,1
+Boric acid,HMDB0035731,0,0,0,0
+1-Aminocyclopropanecarbo1ylic acid,HMDB0036458,1,0,0,0
+Maltose,HMDB0037138,1,1,0,0
+D-Glyceryl beta-galactopyranoside,HMDB0038664,0,0,0,0
+Glucopyranosyl-glucopyranose,HMDB0039707,0,0,0,0
+Lactose,HMDB0041627,1,1,0,0
+Chlorpyrifos,HMDB0041856,0,0,1,0
+Diethylamine,HMDB0041878,0,0,0,1
+2-Metho1yacetic acid,HMDB0041929,0,0,0,1
+2-Hydro1yglutarate,HMDB0059655,0,0,1,0
+Heptaethylene glycol,HMDB0061835,1,0,0,0
+2-Amino-3-hydro1ypropanoic acid,HMDB0062263,1,1,1,1
+3-Pyridinol ,HMDB0240652,0,0,0,1
+L-Threonic acid,HMDB0245425,1,0,0,0
+D-Fructofuranose,HMDB0250747,1,0,0,0
+2-Thioglycolic acid,HMDB0254464,0,0,1,0
+beta-Gentiobiose,HMDB0341292,0,1,0,0
