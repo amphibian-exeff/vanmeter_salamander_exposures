@@ -26,6 +26,7 @@ library(matrixcalc)
 library(Matrix)
 library(pathview)
 library(pheatmap)
+library(effsize)
 
 #browseVignettes("pathview")
 
@@ -36,8 +37,9 @@ print((.packages()))
 if(Sys.info()[4]=="DZ2626UTPURUCKE"){
   rvm_root <- file.path("c:", "git", "vanmeter_salamander_exposures")
 }
-if(Sys.info()[4]=="LZ2626UTPURUCKE"){
-  rvm_root <- file.path("c:","git","vanmeter_salamander_exposures")
+#tom epa windows 2
+if(Sys.info()[4]=="LZ26TPURUCKE-2"){
+  rvm_root <- file.path("c:", "Users", "tpurucke", "git", "vanmeter_salamander_exposures")
 }
 
 print(paste("Root directory location: ", rvm_root, sep=""))
@@ -47,7 +49,7 @@ rvm_data_out <- file.path(rvm_root, "data_out")
 rvm_graphics <- file.path(rvm_root, "graphics")
 
 #check to see if directories are accessible
-boo = file.exists(file.path(rvm_data_in,"/Final_GSH_Salamanders_April_2020.csv"))
+boo = file.exists(file.path(rvm_data_in,"Final_GSH_Salamanders_April_2020.csv"))
 print(paste("check to see if R can access GSF file OK: ", boo))
 
 #GSH units = nM/mL

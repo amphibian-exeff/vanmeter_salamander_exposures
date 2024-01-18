@@ -42,7 +42,8 @@ t.test(rvm_gsh$gsh_nM_mL[which_controls],rvm_gsh$gsh_nM_mL[which_24d])
 #13.78678  16.33906 
 
 ### SCENARIO 2 #SIGNIFICANT
-#averaged gsh for 24d  drop outliers
+# these are used for the manuscript for liver gsh with outliers dropped, p = 0.977
+# averaged gsh for 24d drop outliers
 rvm_gsh_158$gsh_nM_mL[which158_controls] # high value of 31 dropped
 # [1] 16.547200 14.877617 12.076400 13.045233  6.954350  9.477850 17.365583  7.115300 13.348783  9.028167
 rvm_gsh_158$gsh_nM_mL[which158_24d] # nothing dropped
@@ -79,7 +80,8 @@ t.test(rvm_gsh$gsh_nM_mL[which_controls],rvm_gsh$gsh_nM_mL[which_cps])
 #13.78678  12.03512 
 
 ### SCENARIO 6
-###averaged gsh t-test for chlorpyrifos for 24d but drop outliers #NOT SIGNIFICANT
+# these are used for the manuscript for liver gsh with outliers dropped, p = 0.977
+###averaged gsh t-test for chlorpyrifos but drop outliers #NOT SIGNIFICANT
 rvm_gsh_158$gsh_nM_mL[which158_controls]
 # [1] 16.547200 14.877617 12.076400 13.045233  6.954350  9.477850 17.365583  7.115300 13.348783  9.028167
 rvm_gsh_158$gsh_nM_mL[which158_cps]
@@ -93,6 +95,19 @@ t.test(rvm_gsh_158$gsh_nM_mL[which158_controls],rvm_gsh_158$gsh_nM_mL[which158_c
 ##sample estimates:
 #  mean of x mean of y 
 #11.98365  12.03512 
+
+# these are used for the manuscript for liver gsh with outliers dropped, d = 0.925
+### cohen d for 24d but drop outliers
+# treatment levels first argument for this function
+cohen.d(rvm_gsh_158$gsh_nM_mL[which158_cps], 
+        rvm_gsh_158$gsh_nM_mL[which158_controls],
+        hedges.correction = T)
+#Hedges's g
+#g estimate: 0.01230793 (negligible)
+#95 percent confidence interval:
+#     lower      upper 
+#-0.8656281  0.8902439 
+
 
 ### SCENARIO 7 -Logged gsh-chlorpyrifos with outliers
 
@@ -269,7 +284,7 @@ t.test(log(rvm_gsh$gsh_1_8_dilution_nM_mL[which_logged_controls]),log(rvm_gsh$gs
 ###################
 ###################
 #####################
-# these are used for the manuscript
+
 
 ###gsh mean of 1_5 and 1_8
 
@@ -288,6 +303,7 @@ t.test(rvm_gsh$gsh_nM_mL[which158_controls],rvm_gsh$gsh_nM_mL[which158_24d])
 #  mean of x mean of y 
 #14.26265  16.12628 
 
+# these are used for the manuscript for liver gsh with outliers dropped, p = 0.036
 #24d drop outlier
 rvm_gsh_158$gsh_nM_mL[which158_controls]
 rvm_gsh_158$gsh_nM_mL[which158_24d]
@@ -300,6 +316,19 @@ t.test(rvm_gsh_158$gsh_nM_mL[which158_controls],rvm_gsh_158$gsh_nM_mL[which158_2
 #sample estimates:
 #  mean of x mean of y 
 #11.98365  16.66436  
+
+# these are used for the manuscript for liver gsh with outliers dropped, d = 0.925
+### cohen d for 24d but drop outliers
+# treatment levels first argument for this function
+cohen.d(rvm_gsh_158$gsh_nM_mL[which158_24d], 
+                rvm_gsh_158$gsh_nM_mL[which158_controls],
+                hedges.correction = T)
+# Hedges's g
+#g estimate: 0.9245339 (large)
+# 95 percent confidence interval:
+#        lower        upper 
+# 0.0009960386 1.8480717217 
+
 
 #24d logged
 t.test(log(rvm_gsh$gsh_nM_mL[which158_controls]),log(rvm_gsh$gsh_nM_mL[which_24d]))

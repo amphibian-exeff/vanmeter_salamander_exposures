@@ -250,8 +250,8 @@ outliers_swabs
 # drop outliers and rerun tests
 # repeat normality tests but drop outliers
 dim(rvm_gsh_swabs)
-colnames(rvm_gsh_swabs_drop_outliers)
 rvm_gsh_swabs_drop_outliers <- rvm_gsh_swabs[-outliers_swabs,]
+colnames(rvm_gsh_swabs_drop_outliers)
 dim(rvm_gsh_swabs_drop_outliers)
 aggregate(total_GSH ~ treatment,
           data = rvm_gsh_swabs_drop_outliers,

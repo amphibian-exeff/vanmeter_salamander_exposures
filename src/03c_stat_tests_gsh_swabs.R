@@ -13,7 +13,10 @@ which_dropout_swab_cps <- which(rvm_gsh_swabs_drop_outliers$treatment=='CHL')
 
 
 
-### gsh swab t-test for for 24d but drop outliers
+####### 24D SWABS
+### these are used in the manuscript for swabs
+###
+### gsh swab t-test for 24d but drop outliers
 rvm_gsh_swabs_drop_outliers$total_GSH[which_dropout_swab_controls]
 #  [1] 0.1460550 0.1351652 0.1282957 0.1169261 0.1296864 0.1386652 0.1297304 0.1443000 0.1186521 0.1380652
 rvm_gsh_swabs_drop_outliers$total_GSH[which_dropout_swab_24d]
@@ -28,6 +31,17 @@ t.test(rvm_gsh_swabs_drop_outliers$total_GSH[which_dropout_swab_controls],
 #sample estimates:
 #  mean of x mean of y 
 #0.1325541 0.1383655 
+
+### cohen d for 24d but drop outliers
+# treatment levels first argument for this function
+cohen.d(rvm_gsh_swabs_drop_outliers$total_GSH[which_dropout_swab_24d], 
+        rvm_gsh_swabs_drop_outliers$total_GSH[which_dropout_swab_controls], 
+        hedges.correction = T)
+#g estimate: 0.3558548 (small)
+#95 percent confidence interval:
+#  lower      upper 
+#-0.5511004  1.2628100 
+
 
 ### gsh swab t-test for chlorpyrifos but drop outliers
 rvm_gsh_swabs_drop_outliers$total_GSH[which_dropout_swab_controls]
@@ -44,3 +58,13 @@ t.test(rvm_gsh_swabs_drop_outliers$total_GSH[which_dropout_swab_controls],
 #sample estimates:
 #  mean of x mean of y 
 #0.1325541 0.1432098 
+
+### cohens d for chlorpyrifos but drop outliers
+cohen.d(rvm_gsh_swabs_drop_outliers$total_GSH[which_dropout_swab_cps],
+        rvm_gsh_swabs_drop_outliers$total_GSH[which_dropout_swab_controls], 
+        hedges.correction = T)
+# Hedges's g
+#g estimate: 0.7132158 (medium)
+#95 percent confidence interval:
+#     lower      upper 
+#-0.2416784  1.6681101  
