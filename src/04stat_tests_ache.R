@@ -15,6 +15,7 @@ outliers_ache
 dim(rvm_gsh)
 rvm_gsh_ache <- rvm_gsh[-outliers_ache,]
 dim(rvm_gsh_ache)
+#View(rvm_gsh_ache)
 
 ###Welch Two Sample t-test
 # Scenario 1
@@ -53,7 +54,16 @@ t.test(rvm_gsh_ache$ache_ug_min_mg[which_controls_ache],rvm_gsh_ache$ache_ug_min
 #  mean of x   mean of y 
 #0.001990223 0.001940262 
 
-
+### cohen d for 24d but drop outliers (no outliers)
+# treatment levels first argument for this function
+cohen.d(rvm_gsh_ache$ache_ug_min_mg[which_24d_ache], 
+        rvm_gsh_ache$ache_ug_min_mg[which_controls_ache], 
+        hedges.correction = T)
+#Hedges's g
+#g estimate: -0.05442714 (negligible)
+#95 percent confidence interval:
+#     lower      upper 
+#-0.9589874  0.8501331 
 
 ###Welch Two Sample t-test logged
 #with outliers logged
@@ -90,7 +100,16 @@ t.test(rvm_gsh$ache_ug_min_mg[which_controls],rvm_gsh$ache_ug_min_mg[which_cps])
 #sample estimates:
 #  mean of x   mean of y 
 #0.001990223 0.002271027 
-
+### cohen d for cps but drop outliers (no outliers)
+# treatment levels first argument for this function
+cohen.d(rvm_gsh$ache_ug_min_mg[which_cps], 
+        rvm_gsh$ache_ug_min_mg[which_controls], 
+        hedges.correction = T)
+#Hedges's g
+#g estimate: 0.2701941 (small)
+#95 percent confidence interval:
+#     lower      upper 
+#-0.5893823  1.1297704 
 
 #drop outliers
 t.test(rvm_gsh15$ache_ug_min_mg[which15_controls],rvm_gsh15$ache_ug_min_mg[which15_cps])
