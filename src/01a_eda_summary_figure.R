@@ -110,11 +110,14 @@ p7 <- rvm_gsh_swabs %>%
   ggplot(aes(x=treatment, y=total_GSH, fill=treatment)) +
   geom_boxplot() +
   geom_jitter(shape=16, position=position_jitter(0.2), color="darkorchid1") +
-  xlab("Treatment") + ylab("Glutathione (nM_mL)") + ggtitle("Glutathione Swabs") +
+  xlab("Treatment") + ylab("Glutathione (nM_mL)") + ggtitle("Glutathione swabs") +
   ylim(0,0.3) +
   scale_x_discrete(labels = c("CON", "24D", "CPF")) +
   scale_fill_discrete(labels = c("CON", "24D", "CPF")) +
-  theme_bw()
+  theme_bw() +
+  labs(color= "New legend title")
+p7
+p7 <- p7 + guides(fill=guide_legend(title = "Treatment"))
 p7
 
 #combined figure jpg
